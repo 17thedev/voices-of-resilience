@@ -276,19 +276,14 @@ nav.scrolled{box-shadow:0 2px 20px rgba(28,38,49,0.06);}
    CONTACT PAGE
 ════════════════════════════════ */
 .contact-body{padding:80px 52px 100px;}
-.contact-center{max-width:640px;margin:0 auto;text-align:center;}
-.contact-lead{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:300;line-height:1.72;color:var(--s700);margin-bottom:48px;}
-.wa-card{background:var(--white);border:1px solid var(--div);padding:52px 48px;display:flex;flex-direction:column;align-items:center;gap:28px;}
-.wa-icon{width:64px;height:64px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.wa-icon svg{width:32px;height:32px;fill:white;}
-.wa-number{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:400;color:var(--s900);letter-spacing:0.02em;}
-.wa-note{font-size:13px;font-weight:300;color:var(--muted);line-height:1.8;text-align:center;max-width:380px;}
-.btn-wa{font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);background:#25d366;padding:16px 36px;display:inline-block;transition:background 0.25s;border:none;font-family:'Jost',sans-serif;cursor:pointer;}
-.btn-wa:hover{background:#1da851;}
-.contact-topics{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:2px;}
-.ct-item{background:var(--white);border:1px solid var(--div);padding:28px 32px;}
-.ct-label{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.ct-val{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--s900);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+.contact-info{display:flex;flex-direction:column;gap:0;}
+.ci-item{padding:28px 0;border-bottom:1px solid var(--div);}
+.ci-item:first-child{border-top:1px solid var(--div);}
+.ci-label{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.ci-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--s900);}
+.ci-sub{font-size:13px;font-weight:300;color:var(--soft);margin-top:4px;}
+.contact-form{background:var(--white);border:1px solid var(--div);padding:48px;}
 
 /* AFFIL STRIP */
 .affil-strip{padding:48px 52px;background:var(--s50);border-top:1px solid var(--div);border-bottom:1px solid var(--div);display:flex;align-items:center;gap:0;}
@@ -356,9 +351,8 @@ footer{padding:28px 52px;background:var(--off);display:flex;align-items:center;j
   .submit-grid{grid-template-columns:1fr;}
   .submit-sidebar{position:static;}
   .form-block{padding:32px 24px;}
-  .contact-topics{grid-template-columns:1fr;}
-  .wa-card{padding:36px 24px;}
-  .wa-number{font-size:24px;}
+  .contact-grid{grid-template-columns:1fr;}
+  .contact-form{padding:32px 24px;}
   .affil-strip{flex-direction:column;gap:24px;padding:40px 24px;}
   .as-left{flex:none;border-right:none;border-bottom:1px solid var(--div);padding:0 0 24px;}
   .as-body{padding:0;}
@@ -474,7 +468,7 @@ footer{padding:28px 52px;background:var(--off);display:flex;align-items:center;j
       </div>
       <div class="feat-card">
         <div class="feat-portrait">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Olivia_Munn_2014_%28cropped%29.jpg/800px-Olivia_Munn_2014_%28cropped%29.jpg" alt="Olivia Munn" onerror="this.style.display='none'"/>
+          <img src="./images/olivia-munn.jpg" alt="Olivia Munn" onerror="this.style.display='none'"/>
           <div class="feat-overlay"></div>
           <div class="feat-pmeta"><div class="feat-pname">Olivia Munn</div><div class="feat-prole">Actress, The Newsroom and X-Men: Apocalypse</div></div>
         </div>
@@ -492,15 +486,15 @@ footer{padding:28px 52px;background:var(--off);display:flex;align-items:center;j
       </div>
       <div class="card-grid">
         <div class="t-card">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Michael_J._Fox_2012_Shankbone.jpg/800px-Michael_J._Fox_2012_Shankbone.jpg" alt="Michael J. Fox" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/michael-j-fox.jpeg" alt="Michael J. Fox" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-neuro">Parkinson's Disease</span><div class="t-name">Michael J. Fox</div><div class="t-role">Actor and Advocate</div><p class="t-excerpt">Diagnosed at 29 and kept private for seven years. He went public in 1998 and has since raised over one billion dollars for Parkinson's research. Presidential Medal of Freedom recipient, January 2025.</p></div><div class="card-footer"><span class="card-year">Diagnosed 1991</span><a href="#" class="arrow-link" onclick="showPage('testimonies');return false;">Read</a></div></div>
         </div>
         <div class="t-card">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Selena_Gomez_-_Walmart_Soundcheck.jpg/800px-Selena_Gomez_-_Walmart_Soundcheck.jpg" alt="Selena Gomez" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/selena-gomez.jpeg" alt="Selena Gomez" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-mental">Lupus and Bipolar Disorder</span><div class="t-name">Selena Gomez</div><div class="t-role">Musician, Actress, Producer</div><p class="t-excerpt">Diagnosed with lupus at 25 and later with bipolar disorder. Spoke publicly about hospitalisation, kidney transplant surgery, and managing both conditions in the public eye.</p></div><div class="card-footer"><span class="card-year">Disclosed 2015 onward</span><a href="#" class="arrow-link" onclick="showPage('testimonies');return false;">Read</a></div></div>
         </div>
         <div class="t-card">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/King_Charles_III_official_portrait_for_His_Majesty%27s_80th_birthday_%28cropped%29.jpg/800px-King_Charles_III_official_portrait_for_His_Majesty%27s_80th_birthday_%28cropped%29.jpg" alt="King Charles III" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/king-charles.jpeg" alt="King Charles III" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-cancer">Cancer</span><div class="t-name">King Charles III</div><div class="t-role">King of the United Kingdom</div><p class="t-excerpt">Diagnosed in February 2024. The Palace chose public disclosure deliberately to reduce stigma around cancer. He resumed public duties in April 2024 while continuing treatment.</p></div><div class="card-footer"><span class="card-year">Diagnosed 2024</span><a href="#" class="arrow-link" onclick="showPage('testimonies');return false;">Read</a></div></div>
         </div>
       </div>
@@ -562,31 +556,31 @@ footer{padding:28px 52px;background:var(--off);display:flex;align-items:center;j
 
       <div class="archive-grid" id="archive-grid">
         <div class="t-card" data-tags="cancer" data-name="olivia munn breast cancer">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Olivia_Munn_2014_%28cropped%29.jpg/800px-Olivia_Munn_2014_%28cropped%29.jpg" alt="Olivia Munn" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/olivia-munn.jpg" alt="Olivia Munn" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-cancer">Breast Cancer</span><div class="t-name">Olivia Munn</div><div class="t-role">Actress, The Newsroom</div><p class="t-excerpt">Diagnosed with Luminal B breast cancer in both breasts in late 2023 after a routine mammogram showed nothing. Underwent a double mastectomy and went public in March 2024, crediting the Tyrer-Cuzick tool with saving her life.</p></div><div class="card-footer"><span class="card-year">Diagnosed 2023</span><a href="#" class="arrow-link">Read</a></div></div>
         </div>
         <div class="t-card" data-tags="neuro" data-name="michael j fox parkinsons">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Michael_J._Fox_2012_Shankbone.jpg/800px-Michael_J._Fox_2012_Shankbone.jpg" alt="Michael J. Fox" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/michael-j-fox.jpeg" alt="Michael J. Fox" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-neuro">Parkinson's Disease</span><div class="t-name">Michael J. Fox</div><div class="t-role">Actor and Advocate</div><p class="t-excerpt">Diagnosed at 29, kept private for seven years, then went public in 1998. His foundation has since raised over one billion dollars for Parkinson's research. Received the Presidential Medal of Freedom in January 2025 and announced a return to acting.</p></div><div class="card-footer"><span class="card-year">Diagnosed 1991</span><a href="#" class="arrow-link">Read</a></div></div>
         </div>
         <div class="t-card" data-tags="mental" data-name="selena gomez lupus bipolar mental health">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Selena_Gomez_-_Walmart_Soundcheck.jpg/800px-Selena_Gomez_-_Walmart_Soundcheck.jpg" alt="Selena Gomez" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/selena-gomez.jpeg" alt="Selena Gomez" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-mental">Lupus and Bipolar Disorder</span><div class="t-name">Selena Gomez</div><div class="t-role">Musician, Actress, Producer</div><p class="t-excerpt">Diagnosed with lupus at 25 and later bipolar disorder. Has spoken extensively about hospitalisation, a kidney transplant, and managing chronic illness while remaining one of the most followed public figures in the world.</p></div><div class="card-footer"><span class="card-year">Disclosed 2015 onward</span><a href="#" class="arrow-link">Read</a></div></div>
         </div>
         <div class="t-card" data-tags="cancer" data-name="king charles cancer">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/King_Charles_III_official_portrait_for_His_Majesty%27s_80th_birthday_%28cropped%29.jpg/800px-King_Charles_III_official_portrait_for_His_Majesty%27s_80th_birthday_%28cropped%29.jpg" alt="King Charles III" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/king-charles.jpeg" alt="King Charles III" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-cancer">Cancer</span><div class="t-name">King Charles III</div><div class="t-role">King of the United Kingdom</div><p class="t-excerpt">Diagnosed in February 2024. The Palace chose public disclosure to reduce stigma around cancer. He resumed public duties in April 2024 and has continued engagements while managing ongoing treatment.</p></div><div class="card-footer"><span class="card-year">Diagnosed 2024</span><a href="#" class="arrow-link">Read</a></div></div>
         </div>
         <div class="t-card" data-tags="stroke" data-name="jamie foxx stroke brain">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Jamie_Foxx_2009.jpg/800px-Jamie_Foxx_2009.jpg" alt="Jamie Foxx" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/jamie-foxx.jpeg" alt="Jamie Foxx" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-stroke">Stroke and Brain Event</span><div class="t-name">Jamie Foxx</div><div class="t-role">Actor, Musician, Academy Award recipient</div><p class="t-excerpt">On April 11, 2023, Foxx experienced a sudden medical emergency and was unresponsive for 20 days. He described it as the closest to death he had ever been. He recovered fully and returned to filming within the year.</p></div><div class="card-footer"><span class="card-year">April 2023</span><a href="#" class="arrow-link">Read</a></div></div>
         </div>
         <div class="t-card" data-tags="cancer" data-name="jenna fischer breast cancer the office">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Jenna_Fischer_2011_Shankbone.JPG/800px-Jenna_Fischer_2011_Shankbone.JPG" alt="Jenna Fischer" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/jenna-fischer.jpeg" alt="Jenna Fischer" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-cancer">Breast Cancer</span><div class="t-name">Jenna Fischer</div><div class="t-role">Actress, Pam Beesly on The Office</div><p class="t-excerpt">Diagnosed with Stage 1 Triple Positive Breast Cancer in December 2023, she went public in October 2024. Despite early detection, treatment required chemotherapy and radiation. She spoke plainly about the misconception that early stage means easy.</p></div><div class="card-footer"><span class="card-year">Diagnosed 2023</span><a href="#" class="arrow-link">Read</a></div></div>
         </div>
         <div class="t-card" data-tags="neuro" data-name="ozzy osbourne parkinsons black sabbath">
-          <div class="t-photo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Ozzy_Osbourne_-_Ozzfest_Meets_Knotfest_2016_%28cropped%29.jpg/800px-Ozzy_Osbourne_-_Ozzfest_Meets_Knotfest_2016_%28cropped%29.jpg" alt="Ozzy Osbourne" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
+          <div class="t-photo"><img src="./images/ozzy-osbourne.jpeg" alt="Ozzy Osbourne" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
           <div class="t-body"><div><span class="condition-tag tag-neuro">Parkinson's Disease</span><div class="t-name">Ozzy Osbourne</div><div class="t-role">Musician, Black Sabbath</div><p class="t-excerpt">Diagnosed in 2003 and disclosed publicly in 2020 alongside serious spinal surgery. Has been candid about the physical limitations Parkinson's has imposed and about refusing to let it define the last chapter of his career.</p></div><div class="card-footer"><span class="card-year">Disclosed 2020</span><a href="#" class="arrow-link">Read</a></div></div>
         </div>
       </div>
@@ -878,24 +872,35 @@ footer{padding:28px 52px;background:var(--off);display:flex;align-items:center;j
 
   <div class="contact-body">
     <div class="wrap">
-      <div class="section-tag"><span>Get in Touch</span></div>
-      <div class="contact-center">
-        <p class="contact-lead">We keep things simple. The best way to reach us is directly on WhatsApp. Whether you have a general enquiry, want to discuss a partnership, or are looking to submit a testimony, we are one message away.</p>
-
-        <div class="wa-card">
-          <div class="wa-icon">
-            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.49.648 4.83 1.782 6.858L2 30l7.338-1.758A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.44 11.44 0 01-5.82-1.588l-.418-.248-4.35 1.042 1.065-4.236-.272-.434A11.46 11.46 0 014.5 16C4.5 9.649 9.649 4.5 16 4.5S27.5 9.649 27.5 16 22.351 27.5 16 27.5zm6.29-8.538c-.344-.172-2.036-1.004-2.352-1.118-.316-.114-.546-.172-.776.172-.23.344-.89 1.118-1.09 1.348-.2.23-.4.258-.744.086-.344-.172-1.452-.535-2.766-1.707-1.022-.912-1.712-2.038-1.912-2.382-.2-.344-.022-.53.15-.7.154-.154.344-.4.516-.6.172-.2.23-.344.344-.574.114-.23.058-.43-.028-.6-.086-.172-.776-1.87-1.062-2.56-.28-.672-.564-.58-.776-.59-.2-.01-.43-.012-.66-.012s-.6.086-.916.43c-.316.344-1.204 1.176-1.204 2.868s1.232 3.326 1.404 3.556c.172.23 2.426 3.706 5.878 5.196.822.354 1.464.566 1.964.724.826.262 1.578.225 2.172.136.662-.1 2.036-.832 2.322-1.634.286-.802.286-1.49.2-1.634-.084-.143-.314-.229-.658-.401z"/></svg>
+      <div class="contact-grid">
+        <div>
+          <div class="section-tag"><span>Get in Touch</span></div>
+          <div class="contact-info">
+            <div class="ci-item"><div class="ci-label">General Enquiries</div><div class="ci-val">hello@voicesofresilience.org</div><div class="ci-sub">Responses within 2 working days</div></div>
+            <div class="ci-item"><div class="ci-label">Media and Press</div><div class="ci-val">media@voicesofresilience.org</div><div class="ci-sub">For interview requests and press materials</div></div>
+            <div class="ci-item"><div class="ci-label">Partnerships</div><div class="ci-val">partnerships@voicesofresilience.org</div><div class="ci-sub">NGO, clinical and community partnerships</div></div>
+            <div class="ci-item"><div class="ci-label">Affiliation</div><div class="ci-val">World Vision International</div><div class="ci-sub">wvi.org</div></div>
           </div>
-          <div class="wa-number">+44 7555 582822</div>
-          <p class="wa-note">Tap the button below to open a WhatsApp conversation directly. We typically respond within a few hours during working days.</p>
-          <a href="https://wa.me/447555582822" target="_blank" class="btn-wa">Message on WhatsApp</a>
         </div>
 
-        <div class="contact-topics">
-          <div class="ct-item"><div class="ct-label">General Enquiries</div><div class="ct-val">Questions about our work or archive</div></div>
-          <div class="ct-item"><div class="ct-label">Media and Press</div><div class="ct-val">Interview requests and press materials</div></div>
-          <div class="ct-item"><div class="ct-label">Partnerships</div><div class="ct-val">NGO, clinical and community partnerships</div></div>
-          <div class="ct-item"><div class="ct-label">Testimony Submissions</div><div class="ct-val">Start the submission process</div></div>
+        <div class="contact-form">
+          <div class="section-tag"><span>Send a Message</span></div>
+          <div class="form-group"><label class="form-label">Your Name</label><input type="text" class="form-input" placeholder="Full name"/></div>
+          <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" placeholder="your@email.com"/></div>
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <select class="form-select form-input">
+              <option value="" disabled selected>Select a topic</option>
+              <option>General enquiry</option>
+              <option>Media or press request</option>
+              <option>Partnership proposal</option>
+              <option>Support pathway referral</option>
+              <option>Testimony submission</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" placeholder="Write your message here..." style="min-height:140px;"></textarea></div>
+          <button class="btn-teal" style="border:none;font-family:'Jost',sans-serif;cursor:pointer;width:100%;" onclick="this.textContent='Message sent. Thank you.';this.style.background='var(--s700)';">Send Message</button>
         </div>
       </div>
     </div>
