@@ -8,779 +8,698 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-/* ── RESET & ROOT ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --s900:#1c2631;--s700:#2e3f52;--s500:#4a6073;--s300:#8da3b4;--s100:#d6e2eb;--s50:#eef4f8;
-  --off:#f7f9fb;--white:#ffffff;
+  --s900:#1c2631;--s800:#243344;--s700:#2e3f52;--s500:#4a6073;
+  --s300:#8da3b4;--s100:#d6e2eb;--s50:#eef4f8;
+  --off:#f7f9fb;--white:#fff;
   --teal:#3e7b7b;--teal-l:#5a9e9e;--teal-m:#cde3e3;--teal-bg:#f0f7f7;
   --div:#dce8ef;--soft:#617d90;--muted:#8da3b4;
-  --nav-h:64px;
+  --green:#25d366;--nav:64px;
 }
 html{scroll-behavior:smooth;}
 body{background:var(--off);color:var(--s700);font-family:'Jost',sans-serif;font-weight:300;font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;}
-::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-track{background:var(--off);}::-webkit-scrollbar-thumb{background:var(--s300);border-radius:4px;}
-img{display:block;max-width:100%;}
+*::-webkit-scrollbar{width:4px;}*::-webkit-scrollbar-track{background:var(--off);}*::-webkit-scrollbar-thumb{background:var(--s300);border-radius:4px;}
+img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center;}
 a{text-decoration:none;color:inherit;}
 button{cursor:pointer;border:none;background:none;font-family:inherit;}
+ul{list-style:none;}
 
-/* ── PAGE SYSTEM ── */
-.page{display:none;min-height:100vh;padding-top:var(--nav-h);}
+/* PAGE SYSTEM */
+.page{display:none;min-height:100vh;padding-top:var(--nav);}
 .page.active{display:block;}
 
-/* ── NAV ── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:300;
-  height:var(--nav-h);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 52px;
-  background:rgba(247,249,251,0.95);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--div);
-  transition:box-shadow 0.3s;
-}
-nav.scrolled{box-shadow:0 2px 20px rgba(28,38,49,0.06);}
+/* NAV */
+nav{position:fixed;inset:0 0 auto 0;z-index:500;height:var(--nav);display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(247,249,251,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--div);transition:box-shadow .3s;}
+nav.scrolled{box-shadow:0 2px 24px rgba(28,38,49,.07);}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.logo-mark{width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-mark svg{width:14px;height:14px;}
+.logo-text{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;color:var(--s900);}
+.logo-text em{color:var(--teal);font-style:normal;}
+.nav-links{display:flex;}
+.nav-links a{font-size:11px;font-weight:400;letter-spacing:.09em;text-transform:uppercase;color:var(--soft);padding:0 16px;height:var(--nav);display:flex;align-items:center;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+.nav-links a:hover{color:var(--s900);}
+.nav-links a.on{color:var(--teal);border-bottom-color:var(--teal);}
+.wvi-badge{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:4px 10px;border:1px solid var(--div);white-space:nowrap;}
+.wvi-badge b{color:var(--teal);font-weight:500;}
+.ham{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer;}
+.ham span{display:block;width:20px;height:1.5px;background:var(--s700);transition:all .3s;}
+.ham.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px);}
+.ham.open span:nth-child(2){opacity:0;}
+.ham.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px);}
+.mob{display:none;position:fixed;top:var(--nav);inset-inline:0;z-index:499;background:var(--white);border-bottom:1px solid var(--div);flex-direction:column;padding:16px 24px 24px;}
+.mob.open{display:flex;}
+.mob a{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);padding:13px 0;border-bottom:1px solid var(--div);}
+.mob a:last-child{border-bottom:none;}
+.mob a.on{color:var(--teal);}
 
-.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;}
-.logo-mark{width:30px;height:30px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.logo-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--s900);}
-.logo-text span{color:var(--teal);}
-
-.nav-links{display:flex;gap:0;list-style:none;}
-.nav-links li a{
-  font-size:12px;font-weight:400;letter-spacing:0.09em;text-transform:uppercase;
-  color:var(--soft);padding:0 18px;height:var(--nav-h);display:flex;align-items:center;
-  border-bottom:2px solid transparent;transition:color 0.2s,border-color 0.2s;
-}
-.nav-links li a:hover{color:var(--s900);}
-.nav-links li a.active{color:var(--teal);border-bottom-color:var(--teal);}
-
-.nav-right{display:flex;align-items:center;gap:16px;}
-.wvi-pill{font-size:10px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);padding:5px 12px;border:1px solid var(--div);white-space:nowrap;}
-.wvi-pill strong{color:var(--teal);font-weight:500;}
-
-.hamburger{display:none;flex-direction:column;gap:5px;padding:8px;cursor:pointer;}
-.hamburger span{display:block;width:22px;height:1.5px;background:var(--s700);transition:all 0.3s;}
-.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
-.hamburger.open span:nth-child(2){opacity:0;}
-.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
-
-.mobile-menu{
-  display:none;position:fixed;top:var(--nav-h);left:0;right:0;z-index:299;
-  background:var(--white);border-bottom:1px solid var(--div);
-  padding:20px 24px 28px;
-  flex-direction:column;gap:0;
-}
-.mobile-menu.open{display:flex;}
-.mobile-menu a{font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--soft);padding:14px 0;border-bottom:1px solid var(--div);}
-.mobile-menu a:last-child{border-bottom:none;}
-.mobile-menu a.active{color:var(--teal);}
-
-/* ── SHARED COMPONENTS ── */
-.section-tag{display:flex;align-items:center;gap:14px;margin-bottom:48px;}
-.section-tag span{font-size:10px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);}
-.section-tag::after{content:'';flex:1;height:1px;background:var(--div);}
-.section-h{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.5vw,48px);font-weight:300;color:var(--s900);line-height:1.1;letter-spacing:-0.02em;}
+/* SHARED */
 .wrap{max-width:1140px;margin:0 auto;}
-.section-pad{padding:100px 52px;}
+.stag{display:flex;align-items:center;gap:12px;margin-bottom:44px;}
+.stag span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.stag::after{content:'';flex:1;height:1px;background:var(--div);}
+.sh{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3.5vw,46px);font-weight:300;color:var(--s900);line-height:1.1;letter-spacing:-.02em;}
+.btn-t{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--white);background:var(--teal);padding:13px 28px;display:inline-block;transition:background .25s;border:none;cursor:pointer;font-family:'Jost',sans-serif;}
+.btn-t:hover{background:var(--s700);}
+.alink{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);display:inline-flex;align-items:center;gap:7px;transition:gap .2s;}
+.alink:hover{gap:12px;}
+.alink::after{content:'→';}
+.ctag{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid;margin-bottom:18px;}
+.ctag::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;}
+.cancer{color:#5a8a8a;border-color:#c5dede;background:#f0f7f7;}
+.neuro{color:#4e6b8a;border-color:#c0d2e3;background:#eff4f9;}
+.mental{color:#6b5a8a;border-color:#d4c8e6;background:#f5f2fa;}
+.stroke{color:#7a7040;border-color:#ddd8b0;background:#f9f8ef;}
+.heart{color:#8a5a5a;border-color:#e3c8c8;background:#faf2f2;}
+.cfoot{display:flex;align-items:center;justify-content:space-between;padding-top:18px;border-top:1px solid var(--div);}
+.cyear{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
 
-.btn-teal{font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);background:var(--teal);padding:14px 30px;display:inline-block;transition:background 0.25s;}
-.btn-teal:hover{background:var(--s700);}
-.btn-outline{font-size:12px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);border:1px solid var(--teal);padding:13px 30px;display:inline-block;transition:all 0.25s;}
-.btn-outline:hover{background:var(--teal);color:var(--white);}
-.arrow-link{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);display:inline-flex;align-items:center;gap:8px;transition:gap 0.2s;}
-.arrow-link:hover{gap:14px;}
-.arrow-link::after{content:'→';}
+/* BANNER */
+.banner{background:var(--s900);padding:72px 52px 60px;position:relative;overflow:hidden;}
+.banner::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.banner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(62,123,123,.18) 0%,transparent 60%);pointer-events:none;}
+.binner{max-width:1140px;margin:0 auto;position:relative;z-index:2;}
+.brow{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal-l);margin-bottom:16px;}
+.bh{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,62px);font-weight:300;color:var(--white);line-height:1.08;letter-spacing:-.02em;margin-bottom:18px;}
+.bsub{font-size:14px;font-weight:300;color:rgba(255,255,255,.45);max-width:500px;line-height:1.8;}
 
-.condition-tag{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:500;letter-spacing:0.11em;text-transform:uppercase;padding:5px 11px;border:1px solid;margin-bottom:20px;}
-.condition-tag::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;}
-.tag-cancer{color:#5a8a8a;border-color:#c5dede;background:#f0f7f7;}
-.tag-neuro{color:#4e6b8a;border-color:#c0d2e3;background:#eff4f9;}
-.tag-mental{color:#6b5a8a;border-color:#d4c8e6;background:#f5f2fa;}
-.tag-heart{color:#8a5a5a;border-color:#e3c8c8;background:#faf2f2;}
-.tag-stroke{color:#7a7040;border-color:#ddd8b0;background:#f9f8ef;}
+/* ── HOME ── */
+.hero{min-height:calc(100vh - var(--nav));display:grid;grid-template-columns:55% 45%;}
+.hl{padding:88px 60px 72px 52px;display:flex;flex-direction:column;justify-content:center;}
+.hey{display:flex;align-items:center;gap:12px;margin-bottom:28px;opacity:0;animation:rise .8s .1s ease forwards;}
+.hey-line{width:26px;height:1px;background:var(--teal);}
+.hey-t{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);}
+.hh{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5.5vw,76px);font-weight:300;line-height:1.05;color:var(--s900);letter-spacing:-.025em;margin-bottom:24px;opacity:0;animation:rise .8s .22s ease forwards;}
+.hh em{font-style:italic;color:var(--teal);}
+.hbody{font-size:14px;color:var(--soft);max-width:420px;line-height:1.85;margin-bottom:40px;opacity:0;animation:rise .8s .38s ease forwards;}
+.hact{display:flex;align-items:center;gap:24px;opacity:0;animation:rise .8s .52s ease forwards;}
+.hr{background:var(--s900);display:flex;flex-direction:column;justify-content:flex-end;padding:48px;position:relative;overflow:hidden;}
+.hr::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(62,123,123,.2) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(62,123,123,.08) 0%,transparent 50%);pointer-events:none;}
+.hr::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
+.stats{position:relative;z-index:2;}
+.sitem{padding:20px 0;border-top:1px solid rgba(255,255,255,.07);}
+.sitem:last-child{border-bottom:1px solid rgba(255,255,255,.07);}
+.sn{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:300;color:var(--white);line-height:1;margin-bottom:3px;}
+.sl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.32);}
+.haffil{position:relative;z-index:2;margin-top:36px;padding:18px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);}
+.hal{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.26);margin-bottom:4px;}
+.han{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;color:rgba(255,255,255,.7);margin-bottom:4px;}
+.had{font-size:12px;color:rgba(255,255,255,.26);line-height:1.65;}
 
-.card-footer{display:flex;align-items:center;justify-content:space-between;padding-top:20px;border-top:1px solid var(--div);}
-.card-year{font-size:11px;letter-spacing:0.08em;color:var(--muted);text-transform:uppercase;}
+.condband{padding:28px 52px;background:var(--s900);display:flex;align-items:center;overflow-x:auto;gap:0;}
+.condband::-webkit-scrollbar{height:0;}
+.chip{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 26px;border-right:1px solid rgba(255,255,255,.07);white-space:nowrap;flex-shrink:0;}
+.chip:first-child{padding-left:0;}
+.chip:last-child{border-right:none;}
+.chip.on{color:var(--teal-l);}
 
-/* ── PAGE HERO BANNER (inner pages) ── */
-.page-banner{background:var(--s900);padding:72px 52px 64px;position:relative;overflow:hidden;}
-.page-banner::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
-.page-banner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(62,123,123,0.15) 0%,transparent 60%);pointer-events:none;}
-.banner-inner{max-width:1140px;margin:0 auto;position:relative;z-index:2;}
-.banner-eyebrow{font-size:10px;font-weight:400;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal-l);margin-bottom:18px;}
-.banner-h{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:300;color:var(--white);line-height:1.08;letter-spacing:-0.02em;margin-bottom:20px;}
-.banner-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,0.5);max-width:520px;line-height:1.8;}
+/* HOME MISSION */
+.mission{padding:96px 52px;background:var(--white);border-top:1px solid var(--div);border-bottom:1px solid var(--div);}
+.mgrid{display:grid;grid-template-columns:260px 1fr;gap:80px;align-items:start;}
+.mstick{position:sticky;top:80px;}
+.mt{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;line-height:1.72;color:var(--s700);margin-bottom:24px;}
+.mt b{font-weight:500;color:var(--s900);}
+.mnote{font-size:13px;color:var(--muted);line-height:1.85;padding-top:22px;border-top:1px solid var(--div);}
 
-/* ════════════════════════════════
-   HOME PAGE
-════════════════════════════════ */
-.hero{min-height:calc(100vh - var(--nav-h));display:grid;grid-template-columns:55% 45%;}
-.hero-left{padding:90px 64px 80px 52px;display:flex;flex-direction:column;justify-content:center;}
-.hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:32px;opacity:0;animation:rise 0.8s 0.1s ease forwards;}
-.eyebrow-line{width:28px;height:1px;background:var(--teal);}
-.eyebrow-text{font-size:11px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:var(--teal);}
-.hero-h{font-family:'Cormorant Garamond',serif;font-size:clamp(44px,5.5vw,78px);font-weight:300;line-height:1.05;color:var(--s900);letter-spacing:-0.025em;margin-bottom:28px;opacity:0;animation:rise 0.8s 0.22s ease forwards;}
-.hero-h em{font-style:italic;color:var(--teal);}
-.hero-body{font-size:15px;font-weight:300;color:var(--soft);max-width:440px;line-height:1.85;margin-bottom:44px;opacity:0;animation:rise 0.8s 0.38s ease forwards;}
-.hero-actions{display:flex;align-items:center;gap:28px;opacity:0;animation:rise 0.8s 0.52s ease forwards;}
-.hero-right{background:var(--s900);display:flex;flex-direction:column;justify-content:flex-end;padding:52px;position:relative;overflow:hidden;}
-.hero-right::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(62,123,123,0.18) 0%,transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(62,123,123,0.08) 0%,transparent 50%);pointer-events:none;}
-.hero-right::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;}
-.stat-stack{position:relative;z-index:2;}
-.stat-item{padding:22px 0;border-top:1px solid rgba(255,255,255,0.07);}
-.stat-item:last-child{border-bottom:1px solid rgba(255,255,255,0.07);}
-.stat-n{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--white);line-height:1;margin-bottom:3px;}
-.stat-l{font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);}
-.hero-affil{position:relative;z-index:2;margin-top:40px;padding:20px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);}
-.ha-label{font-size:10px;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:5px;}
-.ha-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:rgba(255,255,255,0.72);margin-bottom:5px;}
-.ha-desc{font-size:12px;font-weight:300;color:rgba(255,255,255,0.28);line-height:1.7;}
+/* HOME TESTIMONIES */
+.htests{padding:96px 52px;background:var(--off);}
+.thdr{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:52px;}
 
-.cond-band{padding:30px 52px;background:var(--s900);display:flex;align-items:center;overflow-x:auto;}
-.cond-chip{font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.32);padding:0 28px;border-right:1px solid rgba(255,255,255,0.07);white-space:nowrap;}
-.cond-chip:first-child{padding-left:0;}
-.cond-chip:last-child{border-right:none;}
-.cond-chip.on{color:var(--teal-l);}
+/* FEATURED */
+.feat{display:grid;grid-template-columns:320px 1fr;background:var(--white);border:1px solid var(--div);margin-bottom:3px;overflow:hidden;transition:border-color .3s;}
+.feat:hover{border-color:var(--teal-m);}
+.fport{position:relative;overflow:hidden;background:var(--s900);}
+.fport img{position:absolute;inset:0;transition:transform .6s;}
+.feat:hover .fport img{transform:scale(1.04);}
+.fov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,38,49,.88) 0%,rgba(28,38,49,.1) 55%,transparent 100%);}
+.fmeta{position:absolute;bottom:0;left:0;right:0;padding:24px 28px;z-index:2;}
+.fname{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--white);margin-bottom:2px;}
+.frole{font-size:11px;color:rgba(255,255,255,.4);}
+.fcont{padding:40px 44px;display:flex;flex-direction:column;justify-content:space-between;}
+.fq{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;font-weight:300;line-height:1.65;color:var(--s700);margin-bottom:20px;}
+.fb{font-size:13px;color:var(--soft);line-height:1.85;margin-bottom:28px;}
 
-/* Home Mission */
-.home-mission{padding:100px 52px;background:var(--white);border-top:1px solid var(--div);border-bottom:1px solid var(--div);}
-.hm-grid{display:grid;grid-template-columns:280px 1fr;gap:80px;align-items:start;}
-.hm-sticky{position:sticky;top:84px;}
-.hm-text{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:300;line-height:1.72;color:var(--s700);margin-bottom:28px;}
-.hm-text strong{font-weight:500;color:var(--s900);}
-.hm-note{font-size:13px;font-weight:300;color:var(--muted);line-height:1.85;padding-top:24px;border-top:1px solid var(--div);}
-
-/* Home Testimonies preview */
-.home-testimonies{padding:100px 52px;background:var(--off);}
-.ht-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:60px;}
-
-/* Featured card */
-.feat-card{display:grid;grid-template-columns:340px 1fr;background:var(--white);border:1px solid var(--div);margin-bottom:2px;overflow:hidden;transition:border-color 0.3s;}
-.feat-card:hover{border-color:var(--teal-m);}
-.feat-portrait{position:relative;min-height:400px;overflow:hidden;background:var(--s900);}
-.feat-portrait img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:grayscale(12%) contrast(1.05);transition:transform 0.6s;}
-.feat-card:hover .feat-portrait img{transform:scale(1.03);}
-.feat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,38,49,0.85) 0%,rgba(28,38,49,0.1) 55%,transparent 100%);}
-.feat-pmeta{position:absolute;bottom:0;left:0;right:0;padding:28px 30px;z-index:2;}
-.feat-pname{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--white);margin-bottom:3px;}
-.feat-prole{font-size:12px;font-weight:300;color:rgba(255,255,255,0.42);}
-.feat-content{padding:44px 48px;display:flex;flex-direction:column;justify-content:space-between;}
-.feat-quote{font-family:'Cormorant Garamond',serif;font-size:21px;font-style:italic;font-weight:300;line-height:1.65;color:var(--s700);margin-bottom:24px;}
-.feat-body{font-size:14px;font-weight:300;color:var(--soft);line-height:1.85;margin-bottom:32px;}
-
-/* Grid cards */
-.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2px;}
-.t-card{background:var(--white);border:1px solid var(--div);overflow:hidden;display:flex;flex-direction:column;transition:border-color 0.3s,transform 0.3s;}
-.t-card:hover{border-color:var(--teal-m);transform:translateY(-2px);}
-.t-photo{width:100%;height:210px;overflow:hidden;position:relative;background:var(--s900);flex-shrink:0;}
-.t-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:grayscale(18%) contrast(1.04);transition:transform 0.5s;}
-.t-card:hover .t-photo img{transform:scale(1.04);}
-.t-photo-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,38,49,0.5) 0%,transparent 60%);}
-.t-body{padding:26px 28px;display:flex;flex-direction:column;flex:1;justify-content:space-between;}
-.t-name{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:400;color:var(--s900);line-height:1.1;margin-bottom:3px;}
-.t-role{font-size:11px;font-weight:300;color:var(--muted);margin-bottom:14px;}
-.t-excerpt{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;font-weight:300;line-height:1.65;color:var(--s500);flex:1;margin-bottom:18px;}
-
-/* ════════════════════════════════
-   TESTIMONIES PAGE
-════════════════════════════════ */
-.testimonies-page{padding:60px 52px 100px;}
-.filter-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:44px;}
-.search-wrap{position:relative;flex:1;min-width:220px;max-width:360px;}
-.search-wrap input{width:100%;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:var(--s900);background:var(--white);border:1px solid var(--div);padding:11px 16px 11px 40px;outline:none;transition:border-color 0.2s;}
-.search-wrap input::placeholder{color:var(--muted);}
-.search-wrap input:focus{border-color:var(--teal);}
-.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
-.filter-chips{display:flex;gap:8px;flex-wrap:wrap;}
-.fchip{font-size:11px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;padding:8px 16px;border:1px solid var(--div);color:var(--muted);background:var(--white);transition:all 0.2s;cursor:pointer;}
-.fchip.active{background:var(--teal);border-color:var(--teal);color:var(--white);}
-.fchip:hover:not(.active){border-color:var(--teal);color:var(--teal);}
-.results-info{font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap;}
-.archive-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
-.no-results{grid-column:1/-1;padding:80px;text-align:center;color:var(--muted);font-size:15px;}
-
-/* ════════════════════════════════
-   ABOUT PAGE
-════════════════════════════════ */
-.about-body{padding:80px 52px 100px;}
-.about-grid{display:grid;grid-template-columns:300px 1fr;gap:80px;align-items:start;margin-bottom:80px;}
-.about-sticky{position:sticky;top:84px;}
-.about-lead{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:300;line-height:1.72;color:var(--s700);margin-bottom:28px;}
-.about-lead strong{font-weight:500;color:var(--s900);}
-.about-p{font-size:14px;font-weight:300;color:var(--soft);line-height:1.9;margin-bottom:20px;}
-.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px;}
-.val-card{background:var(--white);border:1px solid var(--div);padding:36px 32px;}
-.val-n{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--div);line-height:1;margin-bottom:16px;}
-.val-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--s900);margin-bottom:12px;}
-.val-body{font-size:13px;font-weight:300;color:var(--soft);line-height:1.85;}
-.team-section{padding:80px 52px;background:var(--white);border-top:1px solid var(--div);}
-.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:52px;}
-.team-card{border:1px solid var(--div);overflow:hidden;}
-.team-photo{height:200px;overflow:hidden;background:var(--s900);}
-.team-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;filter:grayscale(20%);}
-.team-info{padding:22px 20px;}
-.team-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--s900);margin-bottom:3px;}
-.team-role{font-size:11px;font-weight:300;color:var(--muted);}
-
-/* ════════════════════════════════
-   OUR WORK PAGE
-════════════════════════════════ */
-.work-body{padding:80px 52px 100px;}
-.work-intro{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-bottom:80px;padding-bottom:80px;border-bottom:1px solid var(--div);}
-.work-intro-text .about-p{font-size:15px;}
-.work-pillars{margin-bottom:80px;}
-.pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px;}
-.pillar{background:var(--white);border:1px solid var(--div);padding:40px 36px;}
-.pillar-icon{width:44px;height:44px;border-radius:50%;background:var(--teal-bg);display:flex;align-items:center;justify-content:center;margin-bottom:24px;}
-.pillar-icon svg{width:20px;height:20px;stroke:var(--teal);fill:none;stroke-width:1.5;}
-.pillar-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--s900);margin-bottom:12px;}
-.pillar-body{font-size:13px;font-weight:300;color:var(--soft);line-height:1.9;}
-.impact-row{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:52px 0;border-top:1px solid var(--div);border-bottom:1px solid var(--div);}
-.impact-item{text-align:center;padding:32px 20px;background:var(--white);border:1px solid var(--div);}
-.impact-n{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--teal);line-height:1;margin-bottom:8px;}
-.impact-l{font-size:11px;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);}
-
-/* ════════════════════════════════
-   SUBMIT PAGE
-════════════════════════════════ */
-.submit-body{padding:80px 52px 100px;}
-.submit-grid{display:grid;grid-template-columns:1fr 380px;gap:64px;align-items:start;}
-.form-block{background:var(--white);border:1px solid var(--div);padding:52px;}
-.form-group{margin-bottom:28px;}
-.form-label{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--s700);display:block;margin-bottom:10px;}
-.form-input,.form-select,.form-textarea{width:100%;font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:var(--s900);background:var(--off);border:1px solid var(--div);padding:13px 16px;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
-.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--teal);background:var(--white);}
-.form-textarea{resize:vertical;min-height:160px;line-height:1.7;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-.upload-zone{border:1px dashed var(--s100);background:var(--off);padding:40px 24px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative;}
-.upload-zone:hover{border-color:var(--teal);background:var(--teal-bg);}
-.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-.upload-icon{width:40px;height:40px;border-radius:50%;background:var(--teal-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
-.upload-icon svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:1.5;}
-.upload-text{font-size:13px;font-weight:300;color:var(--soft);}
-.upload-sub{font-size:11px;color:var(--muted);margin-top:4px;}
-.form-check{display:flex;align-items:flex-start;gap:12px;font-size:13px;font-weight:300;color:var(--soft);cursor:pointer;}
-.form-check input{width:16px;height:16px;margin-top:2px;accent-color:var(--teal);flex-shrink:0;}
-.form-submit{margin-top:32px;}
-.submit-sidebar{position:sticky;top:84px;display:flex;flex-direction:column;gap:2px;}
-.ss-card{background:var(--white);border:1px solid var(--div);padding:32px;}
-.ss-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--s900);margin-bottom:14px;}
-.ss-body{font-size:13px;font-weight:300;color:var(--soft);line-height:1.85;}
-.ss-list{margin-top:14px;display:flex;flex-direction:column;gap:10px;}
-.ss-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;font-weight:300;color:var(--soft);}
-.ss-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:7px;}
-
-/* ════════════════════════════════
-   CONTACT PAGE
-════════════════════════════════ */
-.contact-body{padding:80px 52px 100px;}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
-.contact-info{display:flex;flex-direction:column;gap:0;}
-.ci-item{padding:28px 0;border-bottom:1px solid var(--div);}
-.ci-item:first-child{border-top:1px solid var(--div);}
-.ci-label{font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.ci-val{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--s900);}
-.ci-sub{font-size:13px;font-weight:300;color:var(--soft);margin-top:4px;}
-.contact-form{background:var(--white);border:1px solid var(--div);padding:48px;}
+/* GRID CARDS */
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:3px;}
+.tcard{background:var(--white);border:1px solid var(--div);overflow:hidden;display:flex;flex-direction:column;transition:border-color .3s,transform .3s;}
+.tcard:hover{border-color:var(--teal-m);transform:translateY(-3px);}
+.tphoto{height:220px;overflow:hidden;position:relative;background:var(--s800);flex-shrink:0;}
+.tphoto img{transition:transform .5s;}
+.tcard:hover .tphoto img{transform:scale(1.05);}
+.tov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,38,49,.5) 0%,transparent 55%);}
+.tbody{padding:24px 26px;display:flex;flex-direction:column;flex:1;justify-content:space-between;}
+.tname{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--s900);line-height:1.1;margin-bottom:2px;}
+.trole{font-size:11px;color:var(--muted);margin-bottom:12px;}
+.texc{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--s500);flex:1;margin-bottom:16px;line-height:1.6;}
 
 /* AFFIL STRIP */
-.affil-strip{padding:48px 52px;background:var(--s50);border-top:1px solid var(--div);border-bottom:1px solid var(--div);display:flex;align-items:center;gap:0;}
-.as-left{flex:0 0 220px;padding-right:48px;border-right:1px solid var(--div);}
-.as-label{font-size:10px;font-weight:400;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
-.as-org{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:400;color:var(--s900);}
-.as-body{flex:1;padding:0 48px;font-size:14px;font-weight:300;color:var(--soft);line-height:1.85;}
-.as-right{flex:0 0 auto;padding-left:48px;border-left:1px solid var(--div);display:flex;flex-direction:column;gap:11px;}
-.as-dot-row{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:300;color:var(--muted);}
-.as-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0;}
+.astrip{padding:44px 52px;background:var(--s50);border-top:1px solid var(--div);border-bottom:1px solid var(--div);display:flex;align-items:center;}
+.asl{flex:0 0 200px;padding-right:44px;border-right:1px solid var(--div);}
+.aslab{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.asorg{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--s900);}
+.asb{flex:1;padding:0 44px;font-size:13px;color:var(--soft);line-height:1.85;}
+.asr{flex:0 0 auto;padding-left:44px;border-left:1px solid var(--div);display:flex;flex-direction:column;gap:10px;}
+.asdot{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);}
+.asdot::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0;}
 
 /* FOOTER */
-footer{padding:28px 52px;background:var(--off);display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--div);}
-.foot-brand{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;color:var(--s900);}
-.foot-brand span{color:var(--teal);}
-.foot-note{font-size:11px;font-weight:300;color:var(--muted);}
-.foot-links{display:flex;gap:22px;list-style:none;}
-.foot-links a{font-size:11px;font-weight:400;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);transition:color 0.2s;}
-.foot-links a:hover{color:var(--s900);}
+footer{padding:26px 52px;background:var(--off);display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--div);}
+.fbrand{font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--s900);}
+.fbrand em{color:var(--teal);font-style:normal;}
+.fnote{font-size:11px;color:var(--muted);}
+.flinks{display:flex;gap:20px;}
+.flinks a{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);transition:color .2s;}
+.flinks a:hover{color:var(--s900);}
 
-/* ANIMATION */
-@keyframes rise{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+/* ── TESTIMONIES PAGE ── */
+.tpage{padding:52px 52px 96px;}
+.fbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:40px;}
+.sinput-wrap{position:relative;flex:1;min-width:200px;max-width:340px;}
+.sinput-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none;}
+.sinput{width:100%;font-family:'Jost',sans-serif;font-size:13px;color:var(--s900);background:var(--white);border:1px solid var(--div);padding:10px 14px 10px 38px;outline:none;transition:border-color .2s;}
+.sinput::placeholder{color:var(--muted);}
+.sinput:focus{border-color:var(--teal);}
+.fchips{display:flex;gap:7px;flex-wrap:wrap;}
+.fc{font-size:10px;letter-spacing:.07em;text-transform:uppercase;padding:7px 14px;border:1px solid var(--div);color:var(--muted);background:var(--white);transition:all .2s;cursor:pointer;font-family:'Jost',sans-serif;}
+.fc.on{background:var(--teal);border-color:var(--teal);color:var(--white);}
+.fc:hover:not(.on){border-color:var(--teal);color:var(--teal);}
+.rcount{font-size:12px;color:var(--muted);margin-left:auto;white-space:nowrap;}
+.agrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.nores{grid-column:1/-1;padding:72px;text-align:center;color:var(--muted);font-size:14px;}
 
-/* ════════════════════════════════
-   RESPONSIVE
-════════════════════════════════ */
+/* ── ABOUT PAGE ── */
+.abody{padding:72px 52px 96px;}
+.agr{display:grid;grid-template-columns:260px 1fr;gap:72px;align-items:start;margin-bottom:72px;}
+.astick{position:sticky;top:80px;}
+.alead{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;line-height:1.72;color:var(--s700);margin-bottom:22px;}
+.alead b{font-weight:500;color:var(--s900);}
+.ap{font-size:14px;color:var(--soft);line-height:1.9;margin-bottom:18px;}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:52px;}
+.vcard{background:var(--white);border:1px solid var(--div);padding:32px 28px;}
+.vn{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--div);line-height:1;margin-bottom:14px;}
+.vt{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--s900);margin-bottom:10px;}
+.vb{font-size:13px;color:var(--soft);line-height:1.85;}
+.tsect{padding:72px 52px;background:var(--white);border-top:1px solid var(--div);}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:44px;}
+.tmcard{border:1px solid var(--div);overflow:hidden;}
+.tmph{height:180px;background:var(--s800);display:flex;align-items:center;justify-content:center;}
+.tmin{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:rgba(255,255,255,.18);}
+.tminfo{padding:18px;}
+.tmname{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--s900);margin-bottom:2px;}
+.tmrole{font-size:11px;color:var(--muted);}
+
+/* ── WORK PAGE ── */
+.wbody{padding:72px 52px 96px;}
+.wintro{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;margin-bottom:72px;padding-bottom:72px;border-bottom:1px solid var(--div);}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:44px;}
+.pill{background:var(--white);border:1px solid var(--div);padding:36px 32px;}
+.piico{width:40px;height:40px;border-radius:50%;background:var(--teal-bg);display:flex;align-items:center;justify-content:center;margin-bottom:20px;}
+.piico svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:1.5;}
+.pit{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--s900);margin-bottom:10px;}
+.pib{font-size:13px;color:var(--soft);line-height:1.9;}
+.irow{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:52px;}
+.iitem{text-align:center;padding:28px 16px;background:var(--white);border:1px solid var(--div);}
+.iin{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--teal);line-height:1;margin-bottom:6px;}
+.iil{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+
+/* ── SUBMIT PAGE ── */
+.sbody{padding:72px 52px 96px;}
+.sgrid{display:grid;grid-template-columns:1fr 360px;gap:52px;align-items:start;}
+.fblock{background:var(--white);border:1px solid var(--div);padding:44px;}
+.fg{margin-bottom:24px;}
+.fl{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--s700);display:block;margin-bottom:8px;}
+.fi,.fsel,.fta{width:100%;font-family:'Jost',sans-serif;font-size:13px;color:var(--s900);background:var(--off);border:1px solid var(--div);padding:11px 14px;outline:none;transition:border-color .2s;-webkit-appearance:none;}
+.fi::placeholder,.fta::placeholder{color:var(--muted);}
+.fi:focus,.fsel:focus,.fta:focus{border-color:var(--teal);background:var(--white);}
+.fta{resize:vertical;min-height:150px;line-height:1.7;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.uzone{border:1px dashed var(--s100);background:var(--off);padding:36px 20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative;}
+.uzone:hover{border-color:var(--teal);background:var(--teal-bg);}
+.uzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.uico{width:36px;height:36px;border-radius:50%;background:var(--teal-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.uico svg{width:16px;height:16px;stroke:var(--teal);fill:none;stroke-width:1.5;}
+.ut{font-size:12px;color:var(--soft);}
+.us{font-size:11px;color:var(--muted);margin-top:3px;}
+.fcheck{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--soft);cursor:pointer;}
+.fcheck input{width:15px;height:15px;margin-top:3px;accent-color:var(--teal);flex-shrink:0;}
+.sside{position:sticky;top:80px;display:flex;flex-direction:column;gap:3px;}
+.sscard{background:var(--white);border:1px solid var(--div);padding:28px;}
+.sst{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--s900);margin-bottom:12px;}
+.ssb{font-size:13px;color:var(--soft);line-height:1.85;}
+.sslist{margin-top:12px;display:flex;flex-direction:column;gap:8px;}
+.ssli{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--soft);}
+.ssli::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:7px;}
+
+/* ── CONTACT PAGE ── */
+.cbody{padding:72px 52px 96px;}
+.ccenter{max-width:600px;margin:0 auto;text-align:center;}
+.clead{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:300;line-height:1.72;color:var(--s700);margin-bottom:44px;}
+.wacard{background:var(--white);border:1px solid var(--div);padding:48px 40px;display:flex;flex-direction:column;align-items:center;gap:24px;}
+.waico{width:60px;height:60px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.waico svg{width:30px;height:30px;fill:white;}
+.wanum{font-family:'Cormorant Garamond',serif;font-size:30px;color:var(--s900);letter-spacing:.02em;}
+.wanote{font-size:13px;color:var(--muted);line-height:1.8;text-align:center;max-width:360px;}
+.btnwa{font-size:12px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--white);background:#25d366;padding:14px 32px;display:inline-block;border:none;cursor:pointer;font-family:'Jost',sans-serif;transition:background .25s;}
+.btnwa:hover{background:#1da851;}
+.ctopics{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;margin-top:3px;}
+.ctopic{background:var(--white);border:1px solid var(--div);padding:24px 28px;}
+.ctlab{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.ctval{font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--s900);}
+
+/* ANIMATIONS */
+@keyframes rise{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* RESPONSIVE */
 @media(max-width:1024px){
-  .card-grid,.archive-grid{grid-template-columns:repeat(2,1fr);}
-  .team-grid{grid-template-columns:repeat(2,1fr);}
-  .impact-row{grid-template-columns:repeat(2,1fr);}
-  .pillars-grid{grid-template-columns:repeat(2,1fr);}
-  .values-grid{grid-template-columns:repeat(2,1fr);}
+  .cgrid,.agrid{grid-template-columns:repeat(2,1fr);}
+  .tgrid{grid-template-columns:repeat(2,1fr);}
+  .irow{grid-template-columns:repeat(2,1fr);}
+  .pgrid{grid-template-columns:repeat(2,1fr);}
+  .vgrid{grid-template-columns:repeat(2,1fr);}
 }
-@media(max-width:900px){
+@media(max-width:860px){
   nav{padding:0 20px;}
-  .nav-links,.nav-right{display:none;}
-  .hamburger{display:flex;}
-  .section-pad{padding:72px 24px;}
+  .nav-links,.wvi-badge{display:none;}
+  .ham{display:flex;}
   .hero{grid-template-columns:1fr;}
-  .hero-left{padding:64px 24px 56px;}
-  .hero-right{min-height:320px;padding:32px 24px;}
-  .cond-band{padding:24px 20px;}
-  .home-mission{padding:72px 24px;}
-  .hm-grid{grid-template-columns:1fr;gap:36px;}
-  .hm-sticky{position:static;}
-  .home-testimonies{padding:72px 24px;}
-  .ht-header{flex-direction:column;align-items:flex-start;gap:12px;}
-  .feat-card{grid-template-columns:1fr;}
-  .feat-portrait{min-height:260px;}
-  .feat-content{padding:32px 24px;}
-  .card-grid,.archive-grid{grid-template-columns:1fr;}
-  .page-banner{padding:52px 24px 44px;}
-  .testimonies-page{padding:40px 24px 80px;}
-  .filter-bar{gap:8px;}
-  .results-info{display:none;}
-  .about-body,.work-body,.submit-body,.contact-body{padding:52px 24px 80px;}
-  .about-grid{grid-template-columns:1fr;gap:36px;}
-  .about-sticky{position:static;}
-  .values-grid{grid-template-columns:1fr;}
-  .team-section{padding:60px 24px;}
-  .team-grid{grid-template-columns:repeat(2,1fr);}
-  .work-intro{grid-template-columns:1fr;gap:40px;}
-  .pillars-grid{grid-template-columns:1fr;}
-  .impact-row{grid-template-columns:repeat(2,1fr);}
-  .submit-grid{grid-template-columns:1fr;}
-  .submit-sidebar{position:static;}
-  .form-block{padding:32px 24px;}
-  .contact-grid{grid-template-columns:1fr;}
-  .contact-form{padding:32px 24px;}
-  .affil-strip{flex-direction:column;gap:24px;padding:40px 24px;}
-  .as-left{flex:none;border-right:none;border-bottom:1px solid var(--div);padding:0 0 24px;}
-  .as-body{padding:0;}
-  .as-right{border-left:none;padding-left:0;}
-  footer{flex-direction:column;gap:14px;text-align:center;padding:24px;}
-  .form-row{grid-template-columns:1fr;}
+  .hl{padding:60px 24px 48px;}
+  .hr{min-height:300px;padding:28px 24px;}
+  .condband{padding:22px 20px;}
+  .mission,.htests{padding:64px 24px;}
+  .mgrid{grid-template-columns:1fr;gap:32px;}
+  .mstick{position:static;}
+  .thdr{flex-direction:column;align-items:flex-start;gap:12px;}
+  .feat{grid-template-columns:1fr;}
+  .fport{min-height:260px;position:relative;}
+  .fport img{position:absolute;inset:0;}
+  .fcont{padding:28px 22px;}
+  .cgrid,.agrid{grid-template-columns:1fr;}
+  .banner{padding:48px 24px 40px;}
+  .tpage{padding:36px 24px 72px;}
+  .fbar{gap:8px;}
+  .rcount{display:none;}
+  .abody,.wbody,.sbody,.cbody{padding:48px 24px 72px;}
+  .agr{grid-template-columns:1fr;gap:32px;}
+  .astick{position:static;}
+  .vgrid{grid-template-columns:1fr;}
+  .tsect{padding:52px 24px;}
+  .tgrid{grid-template-columns:repeat(2,1fr);}
+  .wintro{grid-template-columns:1fr;gap:36px;}
+  .pgrid{grid-template-columns:1fr;}
+  .irow{grid-template-columns:repeat(2,1fr);}
+  .sgrid{grid-template-columns:1fr;}
+  .sside{position:static;}
+  .fblock{padding:28px 22px;}
+  .ctopics{grid-template-columns:1fr;}
+  .wacard{padding:36px 22px;}
+  .wanum{font-size:24px;}
+  .astrip{flex-direction:column;gap:22px;padding:36px 24px;}
+  .asl{flex:none;border-right:none;border-bottom:1px solid var(--div);padding:0 0 22px;}
+  .asb{padding:0;}
+  .asr{border-left:none;padding-left:0;}
+  footer{flex-direction:column;gap:14px;text-align:center;padding:22px 24px;}
+  .frow{grid-template-columns:1fr;}
 }
 @media(max-width:480px){
-  .team-grid{grid-template-columns:1fr;}
-  .impact-row{grid-template-columns:1fr;}
-  .hero-actions{flex-direction:column;align-items:flex-start;gap:16px;}
-  .filter-chips{gap:6px;}
-  .fchip{font-size:10px;padding:6px 12px;}
+  .tgrid{grid-template-columns:1fr;}
+  .irow{grid-template-columns:1fr;}
+  .hact{flex-direction:column;align-items:flex-start;gap:14px;}
+  .fchips{gap:5px;}
+  .fc{font-size:10px;padding:6px 10px;}
 }
 </style>
 </head>
 <body>
 
-<!-- ══ NAV ══ -->
-<nav id="main-nav">
-  <div class="nav-logo" onclick="showPage('home')">
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo" onclick="go('home')">
     <div class="logo-mark">
-      <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 2C8 2 3 5.5 3 9.5C3 12 5.24 14 8 14C10.76 14 13 12 13 9.5C13 5.5 8 2 8 2Z" stroke="white" stroke-width="1.2"/><path d="M8 6V11M6 9L8 11L10 9" stroke="white" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <path d="M8 2C8 2 3 5.5 3 9.5C3 12 5.24 14 8 14C10.76 14 13 12 13 9.5C13 5.5 8 2 8 2Z" stroke="white" stroke-width="1.3"/>
+        <path d="M8 6V11M6 9L8 11L10 9" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
     </div>
-    <span class="logo-text">Voices of <span>Resilience</span></span>
+    <span class="logo-text">Voices of <em>Resilience</em></span>
   </div>
-  <ul class="nav-links">
-    <li><a href="#" class="nav-a active" data-page="home">Home</a></li>
-    <li><a href="#" class="nav-a" data-page="testimonies">Testimonies</a></li>
-    <li><a href="#" class="nav-a" data-page="about">About Us</a></li>
-    <li><a href="#" class="nav-a" data-page="work">Our Work</a></li>
-    <li><a href="#" class="nav-a" data-page="submit">Submit</a></li>
-    <li><a href="#" class="nav-a" data-page="contact">Contact</a></li>
-  </ul>
-  <div class="nav-right">
-    <div class="wvi-pill">In affiliation with <strong>World Vision International</strong></div>
-  </div>
-  <div class="hamburger" id="ham" onclick="toggleMenu()">
+  <nav class="nav-links">
+    <a href="#" class="nav-a on" data-p="home">Home</a>
+    <a href="#" class="nav-a" data-p="tests">Testimonies</a>
+    <a href="#" class="nav-a" data-p="about">About Us</a>
+    <a href="#" class="nav-a" data-p="work">Our Work</a>
+    <a href="#" class="nav-a" data-p="submit">Submit</a>
+    <a href="#" class="nav-a" data-p="contact">Contact</a>
+  </nav>
+  <div class="wvi-badge">In affiliation with <b>World Vision International</b></div>
+  <div class="ham" id="ham" onclick="toggleMob()">
     <span></span><span></span><span></span>
   </div>
 </nav>
 
-<!-- Mobile menu -->
-<div class="mobile-menu" id="mob-menu">
-  <a href="#" class="mob-a active" data-page="home">Home</a>
-  <a href="#" class="mob-a" data-page="testimonies">Testimonies</a>
-  <a href="#" class="mob-a" data-page="about">About Us</a>
-  <a href="#" class="mob-a" data-page="work">Our Work</a>
-  <a href="#" class="mob-a" data-page="submit">Submit a Testimony</a>
-  <a href="#" class="mob-a" data-page="contact">Contact</a>
+<!-- MOBILE MENU -->
+<div class="mob" id="mob">
+  <a href="#" class="mob-a on" data-p="home">Home</a>
+  <a href="#" class="mob-a" data-p="tests">Testimonies</a>
+  <a href="#" class="mob-a" data-p="about">About Us</a>
+  <a href="#" class="mob-a" data-p="work">Our Work</a>
+  <a href="#" class="mob-a" data-p="submit">Submit a Testimony</a>
+  <a href="#" class="mob-a" data-p="contact">Contact</a>
 </div>
 
-<!-- ══════════════════════════════════════
-     HOME PAGE
-══════════════════════════════════════ -->
-<div class="page active" id="page-home">
-
+<!-- ════════════ HOME ════════════ -->
+<div class="page active" id="p-home">
   <section class="hero">
-    <div class="hero-left">
-      <div class="hero-eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">A documentation initiative</span></div>
-      <h1 class="hero-h">Real people.<br><em>Honest</em> accounts.<br>Shared strength.</h1>
-      <p class="hero-body">Voices of Resilience is a non-governmental initiative that preserves the firsthand accounts of public figures who have faced life-altering illness. Cancer, heart disease, neurological conditions, mental health crises and more. Their stories exist so no one faces theirs alone.</p>
-      <div class="hero-actions">
-        <a href="#" class="btn-teal" onclick="showPage('testimonies');return false;">Read Testimonies</a>
-        <a href="#" class="arrow-link" onclick="showPage('about');return false;">Our purpose</a>
+    <div class="hl">
+      <div class="hey"><div class="hey-line"></div><span class="hey-t">A documentation initiative</span></div>
+      <h1 class="hh">Real people.<br><em>Honest</em> accounts.<br>Shared strength.</h1>
+      <p class="hbody">Voices of Resilience preserves the firsthand accounts of public figures who have faced life-altering illness. Cancer, heart disease, neurological conditions, mental health crises and more. Their stories exist so no one faces theirs alone.</p>
+      <div class="hact">
+        <a href="#" class="btn-t" onclick="go('tests');return false;">Read Testimonies</a>
+        <a href="#" class="alink" onclick="go('about');return false;">Our purpose</a>
       </div>
     </div>
-    <div class="hero-right">
-      <div class="stat-stack">
-        <div class="stat-item"><div class="stat-n">48</div><div class="stat-l">Documented testimonies</div></div>
-        <div class="stat-item"><div class="stat-n">5</div><div class="stat-l">Conditions represented</div></div>
-        <div class="stat-item"><div class="stat-n">6</div><div class="stat-l">Years of active work</div></div>
+    <div class="hr">
+      <div class="stats">
+        <div class="sitem"><div class="sn">48</div><div class="sl">Documented testimonies</div></div>
+        <div class="sitem"><div class="sn">5</div><div class="sl">Conditions represented</div></div>
+        <div class="sitem"><div class="sn">6</div><div class="sl">Years of active work</div></div>
       </div>
-      <div class="hero-affil">
-        <div class="ha-label">Affiliated Organisation</div>
-        <div class="ha-name">World Vision International</div>
-        <div class="ha-desc">A global Christian humanitarian organisation working with children, families and communities to overcome poverty and injustice.</div>
+      <div class="haffil">
+        <div class="hal">Affiliated Organisation</div>
+        <div class="han">World Vision International</div>
+        <div class="had">A global Christian humanitarian organisation working with children, families and communities to overcome poverty and injustice.</div>
       </div>
     </div>
   </section>
 
-  <div class="cond-band">
-    <div class="cond-chip on">Cancer</div>
-    <div class="cond-chip on">Heart Disease</div>
-    <div class="cond-chip on">Neurological</div>
-    <div class="cond-chip on">Mental Health</div>
-    <div class="cond-chip on">Stroke</div>
-    <div class="cond-chip">All Conditions</div>
+  <div class="condband">
+    <div class="chip on">Cancer</div>
+    <div class="chip on">Heart Disease</div>
+    <div class="chip on">Neurological</div>
+    <div class="chip on">Mental Health</div>
+    <div class="chip on">Stroke</div>
+    <div class="chip">All Conditions</div>
   </div>
 
-  <section class="home-mission">
+  <section class="mission">
     <div class="wrap">
-      <div class="hm-grid">
-        <div class="hm-sticky">
-          <div class="section-tag"><span>Our Purpose</span></div>
-          <h2 class="section-h">Why we<br>document<br>these stories</h2>
+      <div class="mgrid">
+        <div class="mstick">
+          <div class="stag"><span>Our Purpose</span></div>
+          <h2 class="sh">Why we document these stories</h2>
         </div>
         <div>
-          <p class="hm-text">Illness does not pause for prominence. When a public figure receives a diagnosis that turns their world over, they face the same fear, silence, and uncertainty as anyone else. But they also carry a platform that most people do not.</p>
-          <p class="hm-text">When they choose to speak, something shifts. <strong>Thousands of people sitting with the same diagnosis</strong>, quietly and alone, suddenly have a reference point. A name they recognise. A story that mirrors theirs. Evidence that it is possible to move through.</p>
-          <p class="hm-text">Voices of Resilience exists to collect, preserve, and share those accounts with care. We do not sensationalise. We do not speculate. We document what people have chosen to say publicly and make it freely accessible to anyone who needs it.</p>
-          <p class="hm-note">All testimonies are drawn from public statements, verified interviews, and direct contributions. Voices of Resilience is a non-governmental initiative and does not provide medical advice.</p>
+          <p class="mt">Illness does not pause for prominence. When a public figure receives a diagnosis that turns their world over, they face the same fear, silence, and uncertainty as anyone else. But they also carry a platform most people do not.</p>
+          <p class="mt">When they choose to speak, something shifts. <b>Thousands of people sitting with the same diagnosis</b>, quietly and alone, suddenly have a reference point. A name they recognise. A story that mirrors theirs.</p>
+          <p class="mt">Voices of Resilience exists to collect, preserve, and share those accounts with care. We do not sensationalise. We do not speculate. We document what people have chosen to say publicly and make it freely accessible to anyone who needs it.</p>
+          <p class="mnote">All testimonies are drawn from public statements, verified interviews, and direct contributions. Voices of Resilience is a non-governmental initiative and does not provide medical advice.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="home-testimonies">
+  <section class="htests">
     <div class="wrap">
-      <div class="ht-header">
-        <div><div class="section-tag"><span>Documented Voices</span></div><h2 class="section-h">Testimonies of record</h2></div>
-        <a href="#" class="arrow-link" onclick="showPage('testimonies');return false;">View all 48</a>
+      <div class="thdr">
+        <div><div class="stag"><span>Documented Voices</span></div><h2 class="sh">Testimonies of record</h2></div>
+        <a href="#" class="alink" onclick="go('tests');return false;">View all 48</a>
       </div>
-      <div class="feat-card">
-        <div class="feat-portrait">
-          <img src="./images/olivia-munn.jpg" alt="Olivia Munn" onerror="this.style.display='none'"/>
-          <div class="feat-overlay"></div>
-          <div class="feat-pmeta"><div class="feat-pname">Olivia Munn</div><div class="feat-prole">Actress, The Newsroom and X-Men: Apocalypse</div></div>
+
+      <!-- FEATURED: OLIVIA MUNN -->
+      <div class="feat">
+        <div class="fport" style="min-height:380px;">
+          <img src="Images/olivia-munn.jpg" alt="Olivia Munn"/>
+          <div class="fov"></div>
+          <div class="fmeta"><div class="fname">Olivia Munn</div><div class="frole">Actress, The Newsroom and X-Men: Apocalypse</div></div>
         </div>
-        <div class="feat-content">
+        <div class="fcont">
           <div>
-            <span class="condition-tag tag-cancer">Breast Cancer</span>
-            <p class="feat-quote">"I had a normal mammogram in October 2023. Two months later I was diagnosed with Luminal B breast cancer in both breasts. The Tyrer-Cuzick risk assessment tool is what caught it."</p>
-            <p class="feat-body">Olivia Munn went public with her diagnosis in March 2024 after undergoing a double mastectomy. Her case became a pivotal moment in public health conversation — she had received a standard mammogram that showed nothing. An additional risk assessment calculation flagged her elevated score and prompted further testing. She has since advocated loudly for the Tyrer-Cuzick tool to become standard practice, crediting it with saving her life.</p>
+            <span class="ctag cancer">Breast Cancer</span>
+            <p class="fq">"I had a normal mammogram in October 2023. Two months later I was diagnosed with Luminal B breast cancer in both breasts. The Tyrer-Cuzick risk assessment tool is what caught it."</p>
+            <p class="fb">Olivia Munn went public with her diagnosis in March 2024 after undergoing a double mastectomy. She had received a standard mammogram that showed nothing. An additional risk assessment calculation flagged her elevated score and prompted further testing. She has since advocated loudly for the Tyrer-Cuzick tool to become standard practice, crediting it with saving her life.</p>
           </div>
-          <div class="card-footer">
-            <span class="card-year">Diagnosed 2023, public 2024</span>
-            <a href="#" class="arrow-link" onclick="showPage('testimonies');return false;">Full testimony</a>
-          </div>
+          <div class="cfoot"><span class="cyear">Diagnosed 2023, public 2024</span><a href="#" class="alink" onclick="go('tests');return false;">Full testimony</a></div>
         </div>
       </div>
-      <div class="card-grid">
-        <div class="t-card">
-          <div class="t-photo"><img src="./images/michael-j-fox.jpeg" alt="Michael J. Fox" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-neuro">Parkinson's Disease</span><div class="t-name">Michael J. Fox</div><div class="t-role">Actor and Advocate</div><p class="t-excerpt">Diagnosed at 29 and kept private for seven years. He went public in 1998 and has since raised over one billion dollars for Parkinson's research. Presidential Medal of Freedom recipient, January 2025.</p></div><div class="card-footer"><span class="card-year">Diagnosed 1991</span><a href="#" class="arrow-link" onclick="showPage('testimonies');return false;">Read</a></div></div>
+
+      <div class="cgrid">
+        <!-- MICHAEL J FOX -->
+        <div class="tcard">
+          <div class="tphoto"><img src="Images/michael-j-fox.jpeg" alt="Michael J Fox"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag neuro">Parkinson's Disease</span><div class="tname">Michael J. Fox</div><div class="trole">Actor and Parkinson's Advocate</div><p class="texc">Diagnosed at 29, kept private for seven years, then went public in 1998. His foundation has since raised over one billion dollars for Parkinson's research. Presidential Medal of Freedom recipient, January 2025.</p></div><div class="cfoot"><span class="cyear">Diagnosed 1991</span><a href="#" class="alink" onclick="go('tests');return false;">Read</a></div></div>
         </div>
-        <div class="t-card">
-          <div class="t-photo"><img src="./images/selena-gomez.jpeg" alt="Selena Gomez" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-mental">Lupus and Bipolar Disorder</span><div class="t-name">Selena Gomez</div><div class="t-role">Musician, Actress, Producer</div><p class="t-excerpt">Diagnosed with lupus at 25 and later with bipolar disorder. Spoke publicly about hospitalisation, kidney transplant surgery, and managing both conditions in the public eye.</p></div><div class="card-footer"><span class="card-year">Disclosed 2015 onward</span><a href="#" class="arrow-link" onclick="showPage('testimonies');return false;">Read</a></div></div>
+        <!-- SELENA GOMEZ -->
+        <div class="tcard">
+          <div class="tphoto"><img src="Images/selena-gomez.jpeg" alt="Selena Gomez"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag mental">Lupus and Bipolar Disorder</span><div class="tname">Selena Gomez</div><div class="trole">Musician, Actress, Producer</div><p class="texc">Diagnosed with lupus at 25 and later with bipolar disorder. Spoke about hospitalisation, kidney transplant surgery, and managing both conditions while remaining one of the most followed people in the world.</p></div><div class="cfoot"><span class="cyear">Disclosed 2015 onward</span><a href="#" class="alink" onclick="go('tests');return false;">Read</a></div></div>
         </div>
-        <div class="t-card">
-          <div class="t-photo"><img src="./images/king-charles.jpeg" alt="King Charles III" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-cancer">Cancer</span><div class="t-name">King Charles III</div><div class="t-role">King of the United Kingdom</div><p class="t-excerpt">Diagnosed in February 2024. The Palace chose public disclosure deliberately to reduce stigma around cancer. He resumed public duties in April 2024 while continuing treatment.</p></div><div class="card-footer"><span class="card-year">Diagnosed 2024</span><a href="#" class="arrow-link" onclick="showPage('testimonies');return false;">Read</a></div></div>
+        <!-- KING CHARLES -->
+        <div class="tcard">
+          <div class="tphoto"><img src="Images/king-charles.jpeg" alt="King Charles III"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag cancer">Cancer</span><div class="tname">King Charles III</div><div class="trole">King of the United Kingdom</div><p class="texc">Diagnosed in February 2024. The Palace chose public disclosure to reduce stigma. He resumed public duties in April 2024 while continuing treatment.</p></div><div class="cfoot"><span class="cyear">Diagnosed 2024</span><a href="#" class="alink" onclick="go('tests');return false;">Read</a></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="affil-strip">
-    <div class="as-left"><div class="as-label">In affiliation with</div><div class="as-org">World Vision International</div></div>
-    <div class="as-body">World Vision International is a global Christian humanitarian organisation founded in 1950, operating in nearly 100 countries. Their work spans emergency relief, child welfare, clean water, education, and community development. Voices of Resilience shares their commitment to human dignity and the belief that community is the foundation of lasting change.</div>
-    <div class="as-right">
-      <div class="as-dot-row"><div class="as-dot"></div>Founded 1950</div>
-      <div class="as-dot-row"><div class="as-dot"></div>Active in nearly 100 countries</div>
-      <div class="as-dot-row"><div class="as-dot"></div>wvi.org</div>
+  <div class="astrip">
+    <div class="asl"><div class="aslab">In affiliation with</div><div class="asorg">World Vision International</div></div>
+    <div class="asb">World Vision International is a global Christian humanitarian organisation founded in 1950, operating in nearly 100 countries. Their work spans emergency relief, child welfare, clean water, education, and community development. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
+    <div class="asr">
+      <div class="asdot">Founded 1950</div>
+      <div class="asdot">Active in nearly 100 countries</div>
+      <div class="asdot">wvi.org</div>
     </div>
   </div>
 
   <footer>
-    <div class="foot-brand">Voices of <span>Resilience</span></div>
-    <span class="foot-note">A registered non-governmental initiative. Not a medical provider.</span>
-    <ul class="foot-links">
-      <li><a href="#" onclick="showPage('contact');return false;">Contact</a></li>
-      <li><a href="#">Privacy</a></li>
-      <li><a href="#" onclick="showPage('submit');return false;">Submit a Testimony</a></li>
-    </ul>
+    <div class="fbrand">Voices of <em>Resilience</em></div>
+    <span class="fnote">A registered non-governmental initiative. Not a medical provider.</span>
+    <div class="flinks">
+      <a href="#" onclick="go('contact');return false;">Contact</a>
+      <a href="#">Privacy</a>
+      <a href="#" onclick="go('submit');return false;">Submit a Testimony</a>
+    </div>
   </footer>
 </div>
 
-<!-- ══════════════════════════════════════
-     TESTIMONIES PAGE
-══════════════════════════════════════ -->
-<div class="page" id="page-testimonies">
-  <div class="page-banner">
-    <div class="banner-inner">
-      <div class="banner-eyebrow">Archive</div>
-      <h1 class="banner-h">Testimonies of Record</h1>
-      <p class="banner-sub">First-hand accounts from public figures who have faced life-altering illness, preserved with consent and shared freely.</p>
+<!-- ════════════ TESTIMONIES ════════════ -->
+<div class="page" id="p-tests">
+  <div class="banner">
+    <div class="binner">
+      <div class="brow">Archive</div>
+      <h1 class="bh">Testimonies of Record</h1>
+      <p class="bsub">Firsthand accounts from public figures who have faced life-altering illness, preserved with consent and shared freely.</p>
     </div>
   </div>
 
-  <div class="testimonies-page">
+  <div class="tpage">
     <div class="wrap">
-      <div class="filter-bar">
-        <div class="search-wrap">
-          <span class="search-icon">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          </span>
-          <input type="text" id="search-input" placeholder="Search by name or condition..." oninput="filterCards()"/>
+      <div class="fbar">
+        <div class="sinput-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input class="sinput" type="text" id="si" placeholder="Search by name or condition..." oninput="filter()"/>
         </div>
-        <div class="filter-chips">
-          <button class="fchip active" data-filter="all" onclick="setFilter(this)">All</button>
-          <button class="fchip" data-filter="cancer" onclick="setFilter(this)">Cancer</button>
-          <button class="fchip" data-filter="neuro" onclick="setFilter(this)">Neurological</button>
-          <button class="fchip" data-filter="mental" onclick="setFilter(this)">Mental Health</button>
-          <button class="fchip" data-filter="stroke" onclick="setFilter(this)">Stroke</button>
-          <button class="fchip" data-filter="heart" onclick="setFilter(this)">Heart Disease</button>
+        <div class="fchips">
+          <button class="fc on" data-f="all" onclick="setF(this)">All</button>
+          <button class="fc" data-f="cancer" onclick="setF(this)">Cancer</button>
+          <button class="fc" data-f="neuro" onclick="setF(this)">Neurological</button>
+          <button class="fc" data-f="mental" onclick="setF(this)">Mental Health</button>
+          <button class="fc" data-f="stroke" onclick="setF(this)">Stroke</button>
+          <button class="fc" data-f="heart" onclick="setF(this)">Heart Disease</button>
         </div>
-        <span class="results-info" id="results-count">Showing 7 results</span>
+        <span class="rcount" id="rc">Showing 7 results</span>
       </div>
 
-      <div class="archive-grid" id="archive-grid">
-        <div class="t-card" data-tags="cancer" data-name="olivia munn breast cancer">
-          <div class="t-photo"><img src="./images/olivia-munn.jpg" alt="Olivia Munn" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-cancer">Breast Cancer</span><div class="t-name">Olivia Munn</div><div class="t-role">Actress, The Newsroom</div><p class="t-excerpt">Diagnosed with Luminal B breast cancer in both breasts in late 2023 after a routine mammogram showed nothing. Underwent a double mastectomy and went public in March 2024, crediting the Tyrer-Cuzick tool with saving her life.</p></div><div class="card-footer"><span class="card-year">Diagnosed 2023</span><a href="#" class="arrow-link">Read</a></div></div>
+      <div class="agrid" id="ag">
+        <div class="tcard" data-t="cancer" data-n="olivia munn breast cancer">
+          <div class="tphoto"><img src="Images/olivia-munn.jpg" alt="Olivia Munn"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag cancer">Breast Cancer</span><div class="tname">Olivia Munn</div><div class="trole">Actress, The Newsroom</div><p class="texc">Diagnosed with Luminal B breast cancer in both breasts in late 2023 after a routine mammogram showed nothing. Underwent a double mastectomy and went public in March 2024, crediting the Tyrer-Cuzick tool with saving her life.</p></div><div class="cfoot"><span class="cyear">Diagnosed 2023</span><a href="#" class="alink">Read</a></div></div>
         </div>
-        <div class="t-card" data-tags="neuro" data-name="michael j fox parkinsons">
-          <div class="t-photo"><img src="./images/michael-j-fox.jpeg" alt="Michael J. Fox" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-neuro">Parkinson's Disease</span><div class="t-name">Michael J. Fox</div><div class="t-role">Actor and Advocate</div><p class="t-excerpt">Diagnosed at 29, kept private for seven years, then went public in 1998. His foundation has since raised over one billion dollars for Parkinson's research. Received the Presidential Medal of Freedom in January 2025 and announced a return to acting.</p></div><div class="card-footer"><span class="card-year">Diagnosed 1991</span><a href="#" class="arrow-link">Read</a></div></div>
+        <div class="tcard" data-t="neuro" data-n="michael j fox parkinsons neurological">
+          <div class="tphoto"><img src="Images/michael-j-fox.jpeg" alt="Michael J Fox"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag neuro">Parkinson's Disease</span><div class="tname">Michael J. Fox</div><div class="trole">Actor and Advocate</div><p class="texc">Diagnosed at 29, kept private for seven years, then went public in 1998. His foundation has since raised over one billion dollars for Parkinson's research. Presidential Medal of Freedom recipient, January 2025.</p></div><div class="cfoot"><span class="cyear">Diagnosed 1991</span><a href="#" class="alink">Read</a></div></div>
         </div>
-        <div class="t-card" data-tags="mental" data-name="selena gomez lupus bipolar mental health">
-          <div class="t-photo"><img src="./images/selena-gomez.jpeg" alt="Selena Gomez" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-mental">Lupus and Bipolar Disorder</span><div class="t-name">Selena Gomez</div><div class="t-role">Musician, Actress, Producer</div><p class="t-excerpt">Diagnosed with lupus at 25 and later bipolar disorder. Has spoken extensively about hospitalisation, a kidney transplant, and managing chronic illness while remaining one of the most followed public figures in the world.</p></div><div class="card-footer"><span class="card-year">Disclosed 2015 onward</span><a href="#" class="arrow-link">Read</a></div></div>
+        <div class="tcard" data-t="mental" data-n="selena gomez lupus bipolar mental health">
+          <div class="tphoto"><img src="Images/selena-gomez.jpeg" alt="Selena Gomez"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag mental">Lupus and Bipolar Disorder</span><div class="tname">Selena Gomez</div><div class="trole">Musician, Actress, Producer</div><p class="texc">Diagnosed with lupus at 25 and later bipolar disorder. Has spoken extensively about hospitalisation, a kidney transplant, and managing chronic illness while remaining one of the most followed public figures in the world.</p></div><div class="cfoot"><span class="cyear">Disclosed 2015 onward</span><a href="#" class="alink">Read</a></div></div>
         </div>
-        <div class="t-card" data-tags="cancer" data-name="king charles cancer">
-          <div class="t-photo"><img src="./images/king-charles.jpeg" alt="King Charles III" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-cancer">Cancer</span><div class="t-name">King Charles III</div><div class="t-role">King of the United Kingdom</div><p class="t-excerpt">Diagnosed in February 2024. The Palace chose public disclosure to reduce stigma around cancer. He resumed public duties in April 2024 and has continued engagements while managing ongoing treatment.</p></div><div class="card-footer"><span class="card-year">Diagnosed 2024</span><a href="#" class="arrow-link">Read</a></div></div>
+        <div class="tcard" data-t="cancer" data-n="king charles cancer">
+          <div class="tphoto"><img src="Images/king-charles.jpeg" alt="King Charles III"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag cancer">Cancer</span><div class="tname">King Charles III</div><div class="trole">King of the United Kingdom</div><p class="texc">Diagnosed in February 2024. The Palace chose public disclosure to reduce stigma around cancer. He resumed public duties in April 2024 while continuing treatment.</p></div><div class="cfoot"><span class="cyear">Diagnosed 2024</span><a href="#" class="alink">Read</a></div></div>
         </div>
-        <div class="t-card" data-tags="stroke" data-name="jamie foxx stroke brain">
-          <div class="t-photo"><img src="./images/jamie-foxx.jpeg" alt="Jamie Foxx" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-stroke">Stroke and Brain Event</span><div class="t-name">Jamie Foxx</div><div class="t-role">Actor, Musician, Academy Award recipient</div><p class="t-excerpt">On April 11, 2023, Foxx experienced a sudden medical emergency and was unresponsive for 20 days. He described it as the closest to death he had ever been. He recovered fully and returned to filming within the year.</p></div><div class="card-footer"><span class="card-year">April 2023</span><a href="#" class="arrow-link">Read</a></div></div>
+        <div class="tcard" data-t="stroke" data-n="jamie foxx stroke brain">
+          <div class="tphoto"><img src="Images/jamie-foxx.jpeg" alt="Jamie Foxx"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag stroke">Stroke and Brain Event</span><div class="tname">Jamie Foxx</div><div class="trole">Actor, Musician, Academy Award recipient</div><p class="texc">On April 11, 2023, Foxx experienced a sudden medical emergency and was unresponsive for 20 days. He described it as the closest to death he had ever been. He recovered fully and returned to filming within the year.</p></div><div class="cfoot"><span class="cyear">April 2023</span><a href="#" class="alink">Read</a></div></div>
         </div>
-        <div class="t-card" data-tags="cancer" data-name="jenna fischer breast cancer the office">
-          <div class="t-photo"><img src="./images/jenna-fischer.jpeg" alt="Jenna Fischer" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-cancer">Breast Cancer</span><div class="t-name">Jenna Fischer</div><div class="t-role">Actress, Pam Beesly on The Office</div><p class="t-excerpt">Diagnosed with Stage 1 Triple Positive Breast Cancer in December 2023, she went public in October 2024. Despite early detection, treatment required chemotherapy and radiation. She spoke plainly about the misconception that early stage means easy.</p></div><div class="card-footer"><span class="card-year">Diagnosed 2023</span><a href="#" class="arrow-link">Read</a></div></div>
+        <div class="tcard" data-t="cancer" data-n="jenna fischer breast cancer office">
+          <div class="tphoto"><img src="Images/jenna-fischer.jpeg" alt="Jenna Fischer"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag cancer">Breast Cancer</span><div class="tname">Jenna Fischer</div><div class="trole">Actress, Pam Beesly on The Office</div><p class="texc">Diagnosed with Stage 1 Triple Positive Breast Cancer in December 2023, she went public in October 2024. Treatment required chemotherapy and radiation. She spoke plainly about the misconception that early stage means easy.</p></div><div class="cfoot"><span class="cyear">Diagnosed 2023</span><a href="#" class="alink">Read</a></div></div>
         </div>
-        <div class="t-card" data-tags="neuro" data-name="ozzy osbourne parkinsons black sabbath">
-          <div class="t-photo"><img src="./images/ozzy-osbourne.jpeg" alt="Ozzy Osbourne" onerror="this.style.display='none'"/><div class="t-photo-ov"></div></div>
-          <div class="t-body"><div><span class="condition-tag tag-neuro">Parkinson's Disease</span><div class="t-name">Ozzy Osbourne</div><div class="t-role">Musician, Black Sabbath</div><p class="t-excerpt">Diagnosed in 2003 and disclosed publicly in 2020 alongside serious spinal surgery. Has been candid about the physical limitations Parkinson's has imposed and about refusing to let it define the last chapter of his career.</p></div><div class="card-footer"><span class="card-year">Disclosed 2020</span><a href="#" class="arrow-link">Read</a></div></div>
+        <div class="tcard" data-t="neuro" data-n="ozzy osbourne parkinsons neurological black sabbath">
+          <div class="tphoto"><img src="Images/ozzy-osbourne.jpeg" alt="Ozzy Osbourne"/><div class="tov"></div></div>
+          <div class="tbody"><div><span class="ctag neuro">Parkinson's Disease</span><div class="tname">Ozzy Osbourne</div><div class="trole">Musician, Black Sabbath</div><p class="texc">Diagnosed in 2003 and disclosed publicly in 2020 alongside serious spinal surgery. Has been candid about the physical limitations Parkinson's has imposed and about refusing to let it define the last chapter of his career.</p></div><div class="cfoot"><span class="cyear">Disclosed 2020</span><a href="#" class="alink">Read</a></div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="affil-strip">
-    <div class="as-left"><div class="as-label">In affiliation with</div><div class="as-org">World Vision International</div></div>
-    <div class="as-body">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
-    <div class="as-right">
-      <div class="as-dot-row"><div class="as-dot"></div>Founded 1950</div>
-      <div class="as-dot-row"><div class="as-dot"></div>Active in nearly 100 countries</div>
-      <div class="as-dot-row"><div class="as-dot"></div>wvi.org</div>
-    </div>
+  <div class="astrip">
+    <div class="asl"><div class="aslab">In affiliation with</div><div class="asorg">World Vision International</div></div>
+    <div class="asb">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
+    <div class="asr"><div class="asdot">Founded 1950</div><div class="asdot">Active in nearly 100 countries</div><div class="asdot">wvi.org</div></div>
   </div>
-  <footer>
-    <div class="foot-brand">Voices of <span>Resilience</span></div>
-    <span class="foot-note">A registered non-governmental initiative. Not a medical provider.</span>
-    <ul class="foot-links"><li><a href="#" onclick="showPage('contact');return false;">Contact</a></li><li><a href="#">Privacy</a></li><li><a href="#" onclick="showPage('submit');return false;">Submit</a></li></ul>
-  </footer>
+  <footer><div class="fbrand">Voices of <em>Resilience</em></div><span class="fnote">A registered non-governmental initiative. Not a medical provider.</span><div class="flinks"><a href="#" onclick="go('contact');return false;">Contact</a><a href="#">Privacy</a><a href="#" onclick="go('submit');return false;">Submit</a></div></footer>
 </div>
 
-<!-- ══════════════════════════════════════
-     ABOUT PAGE
-══════════════════════════════════════ -->
-<div class="page" id="page-about">
-  <div class="page-banner">
-    <div class="banner-inner">
-      <div class="banner-eyebrow">Who We Are</div>
-      <h1 class="banner-h">About Voices<br>of Resilience</h1>
-      <p class="banner-sub">A non-governmental initiative built on the belief that shared testimony is one of the most powerful forces in human recovery.</p>
+<!-- ════════════ ABOUT ════════════ -->
+<div class="page" id="p-about">
+  <div class="banner">
+    <div class="binner">
+      <div class="brow">Who We Are</div>
+      <h1 class="bh">About Voices of Resilience</h1>
+      <p class="bsub">A non-governmental initiative built on the belief that shared testimony is one of the most powerful forces in human recovery.</p>
     </div>
   </div>
 
-  <div class="about-body">
+  <div class="abody">
     <div class="wrap">
-      <div class="about-grid">
-        <div class="about-sticky">
-          <div class="section-tag"><span>Our Story</span></div>
-          <h2 class="section-h">Built to break the silence</h2>
+      <div class="agr">
+        <div class="astick">
+          <div class="stag"><span>Our Story</span></div>
+          <h2 class="sh">Built to break the silence</h2>
         </div>
         <div>
-          <p class="about-lead">Voices of Resilience began in 2018 with a simple observation: public figures were sharing some of the most <strong>honest, detailed, and humanising accounts</strong> of serious illness that existed anywhere, and most of them were vanishing into news cycles within days.</p>
-          <p class="about-p">We believed those accounts deserved permanence. That someone diagnosed with cancer at 3am deserved to find a familiar name attached to an experience that mirrored theirs. That the words of people who had been through something and come out the other side should be available, organised, and free.</p>
-          <p class="about-p">Over six years we have built an archive of 48 testimonies across five major condition categories, developed referral pathways to support organisations in twelve countries, and grown a small team of researchers, writers, and health communication specialists.</p>
-          <p class="about-p">We operate as an independent non-governmental initiative in affiliation with World Vision International, whose global reach and shared values around community resilience align closely with our own work.</p>
+          <p class="alead">Voices of Resilience began in 2018 with a simple observation: public figures were sharing some of the most <b>honest, detailed, and humanising accounts</b> of serious illness that existed anywhere, and most of them were vanishing into news cycles within days.</p>
+          <p class="ap">We believed those accounts deserved permanence. That someone diagnosed with cancer at 3am deserved to find a familiar name attached to an experience that mirrored theirs.</p>
+          <p class="ap">Over six years we have built an archive of 48 testimonies across five major condition categories, developed referral pathways to support organisations in twelve countries, and grown a small team of researchers, writers, and health communication specialists.</p>
+          <p class="ap">We operate as an independent non-governmental initiative in affiliation with World Vision International, whose global reach and shared values around community resilience align closely with our own work.</p>
         </div>
       </div>
 
-      <div class="section-tag"><span>Our Values</span></div>
-      <div class="values-grid">
-        <div class="val-card"><div class="val-n">01</div><div class="val-title">Dignity first</div><p class="val-body">Every person in our archive is a human being who chose to share something deeply personal. We treat their words with the same care we would give our own.</p></div>
-        <div class="val-card"><div class="val-n">02</div><div class="val-title">Radical honesty</div><p class="val-body">We do not soften difficult accounts. Fear, grief, and uncertainty are part of these stories, and stripping them out would strip out what makes them useful.</p></div>
-        <div class="val-card"><div class="val-n">03</div><div class="val-title">Open access</div><p class="val-body">Every testimony in our archive is freely available to anyone. No registration, no paywall. The people who need this most are not always in a position to pay for it.</p></div>
-        <div class="val-card"><div class="val-n">04</div><div class="val-title">No speculation</div><p class="val-body">We document only what people have chosen to say publicly or have contributed directly. We do not infer, expand, or fill gaps with assumptions.</p></div>
-        <div class="val-card"><div class="val-n">05</div><div class="val-title">Community referral</div><p class="val-body">We are not clinicians. But we maintain active connections with organisations that are, and we make those pathways visible to everyone who visits.</p></div>
-        <div class="val-card"><div class="val-n">06</div><div class="val-title">Accountability</div><p class="val-body">We publish our operations, our funding, and our affiliation agreements annually. Transparency is not optional for an organisation that asks people to trust it with difficult stories.</p></div>
+      <div class="stag"><span>Our Values</span></div>
+      <div class="vgrid">
+        <div class="vcard"><div class="vn">01</div><div class="vt">Dignity first</div><p class="vb">Every person in our archive chose to share something deeply personal. We treat their words with the same care we would give our own.</p></div>
+        <div class="vcard"><div class="vn">02</div><div class="vt">Radical honesty</div><p class="vb">We do not soften difficult accounts. Fear, grief, and uncertainty are part of these stories, and stripping them out would strip out what makes them useful.</p></div>
+        <div class="vcard"><div class="vn">03</div><div class="vt">Open access</div><p class="vb">Every testimony is freely available to anyone. No registration, no paywall. The people who need this most are not always in a position to pay for it.</p></div>
+        <div class="vcard"><div class="vn">04</div><div class="vt">No speculation</div><p class="vb">We document only what people have chosen to say publicly or contributed directly. We do not infer, expand, or fill gaps with assumptions.</p></div>
+        <div class="vcard"><div class="vn">05</div><div class="vt">Community referral</div><p class="vb">We are not clinicians. But we maintain active connections with organisations that are, and we make those pathways visible to everyone who visits.</p></div>
+        <div class="vcard"><div class="vn">06</div><div class="vt">Accountability</div><p class="vb">We publish our operations, funding, and affiliation agreements annually. Transparency is not optional for an organisation that asks people to trust it with difficult stories.</p></div>
       </div>
     </div>
   </div>
 
-  <div class="team-section">
+  <div class="tsect">
     <div class="wrap">
-      <div class="section-tag"><span>Our Team</span></div>
-      <h2 class="section-h">The people behind the work</h2>
-      <div class="team-grid">
-        <div class="team-card">
-          <div class="team-photo" style="background:#2e3f52;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(255,255,255,0.2);">A</span></div>
-          <div class="team-info"><div class="team-name">Amara Osei</div><div class="team-role">Executive Director</div></div>
-        </div>
-        <div class="team-card">
-          <div class="team-photo" style="background:#2e3f52;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(255,255,255,0.2);">L</span></div>
-          <div class="team-info"><div class="team-name">Lena Hartmann</div><div class="team-role">Head of Research</div></div>
-        </div>
-        <div class="team-card">
-          <div class="team-photo" style="background:#2e3f52;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(255,255,255,0.2);">D</span></div>
-          <div class="team-info"><div class="team-name">David Mensah</div><div class="team-role">Health Communications</div></div>
-        </div>
-        <div class="team-card">
-          <div class="team-photo" style="background:#2e3f52;display:flex;align-items:center;justify-content:center;"><span style="font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:rgba(255,255,255,0.2);">S</span></div>
-          <div class="team-info"><div class="team-name">Sara Nakamura</div><div class="team-role">Community Partnerships</div></div>
-        </div>
+      <div class="stag"><span>Our Team</span></div>
+      <h2 class="sh">The people behind the work</h2>
+      <div class="tgrid">
+        <div class="tmcard"><div class="tmph"><span class="tmin">A</span></div><div class="tminfo"><div class="tmname">Amara Osei</div><div class="tmrole">Executive Director</div></div></div>
+        <div class="tmcard"><div class="tmph"><span class="tmin">L</span></div><div class="tminfo"><div class="tmname">Lena Hartmann</div><div class="tmrole">Head of Research</div></div></div>
+        <div class="tmcard"><div class="tmph"><span class="tmin">D</span></div><div class="tminfo"><div class="tmname">David Mensah</div><div class="tmrole">Health Communications</div></div></div>
+        <div class="tmcard"><div class="tmph"><span class="tmin">S</span></div><div class="tminfo"><div class="tmname">Sara Nakamura</div><div class="tmrole">Community Partnerships</div></div></div>
       </div>
     </div>
   </div>
 
-  <div class="affil-strip">
-    <div class="as-left"><div class="as-label">In affiliation with</div><div class="as-org">World Vision International</div></div>
-    <div class="as-body">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
-    <div class="as-right"><div class="as-dot-row"><div class="as-dot"></div>Founded 1950</div><div class="as-dot-row"><div class="as-dot"></div>Active in nearly 100 countries</div><div class="as-dot-row"><div class="as-dot"></div>wvi.org</div></div>
+  <div class="astrip">
+    <div class="asl"><div class="aslab">In affiliation with</div><div class="asorg">World Vision International</div></div>
+    <div class="asb">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
+    <div class="asr"><div class="asdot">Founded 1950</div><div class="asdot">Active in nearly 100 countries</div><div class="asdot">wvi.org</div></div>
   </div>
-  <footer><div class="foot-brand">Voices of <span>Resilience</span></div><span class="foot-note">A registered non-governmental initiative. Not a medical provider.</span><ul class="foot-links"><li><a href="#" onclick="showPage('contact');return false;">Contact</a></li><li><a href="#">Privacy</a></li><li><a href="#" onclick="showPage('submit');return false;">Submit</a></li></ul></footer>
+  <footer><div class="fbrand">Voices of <em>Resilience</em></div><span class="fnote">A registered non-governmental initiative. Not a medical provider.</span><div class="flinks"><a href="#" onclick="go('contact');return false;">Contact</a><a href="#">Privacy</a><a href="#" onclick="go('submit');return false;">Submit</a></div></footer>
 </div>
 
-<!-- ══════════════════════════════════════
-     OUR WORK PAGE
-══════════════════════════════════════ -->
-<div class="page" id="page-work">
-  <div class="page-banner">
-    <div class="banner-inner">
-      <div class="banner-eyebrow">Our Work</div>
-      <h1 class="banner-h">What we do<br>and how we do it</h1>
-      <p class="banner-sub">From archive building to community referral, every part of our work exists to reduce the silence that surrounds serious illness.</p>
+<!-- ════════════ OUR WORK ════════════ -->
+<div class="page" id="p-work">
+  <div class="banner">
+    <div class="binner">
+      <div class="brow">Our Work</div>
+      <h1 class="bh">What we do and how we do it</h1>
+      <p class="bsub">From archive building to community referral, every part of our work exists to reduce the silence that surrounds serious illness.</p>
     </div>
   </div>
 
-  <div class="work-body">
+  <div class="wbody">
     <div class="wrap">
-      <div class="work-intro">
-        <div><div class="section-tag"><span>The Work</span></div><h2 class="section-h">An archive built with<br>care and intention</h2></div>
+      <div class="wintro">
+        <div><div class="stag"><span>The Work</span></div><h2 class="sh">An archive built with care and intention</h2></div>
         <div>
-          <p class="about-p">Voices of Resilience operates across three core functions: testimony collection and archiving, support pathway development, and public health communication. Each exists to serve the person who finds us at 2am, newly diagnosed, looking for evidence that someone has been here before.</p>
-          <p class="about-p">We are not a news site and we are not a medical resource. We sit in the space between — where personal experience meets public record, and where documented human resilience can serve as something close to hope.</p>
+          <p class="ap" style="font-size:15px;">Voices of Resilience operates across three core functions: testimony collection and archiving, support pathway development, and public health communication. Each exists to serve the person who finds us at 2am, newly diagnosed, looking for evidence that someone has been here before.</p>
+          <p class="ap" style="font-size:15px;">We are not a news site and we are not a medical resource. We sit in the space between — where personal experience meets public record, and where documented human resilience can serve as something close to hope.</p>
         </div>
       </div>
 
-      <div class="section-tag"><span>How We Work</span></div>
-      <div class="pillars-grid">
-        <div class="pillar">
-          <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M9 8h6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
-          <div class="pillar-title">Testimony Collection</div>
-          <p class="pillar-body">We gather firsthand accounts from public statements, authorised interviews, and direct submissions. Every account is verified and published only with explicit consent. Nothing is assumed, inferred, or editorially expanded.</p>
+      <div class="stag"><span>How We Work</span></div>
+      <div class="pgrid">
+        <div class="pill">
+          <div class="piico"><svg viewBox="0 0 24 24"><path d="M9 12h6M9 16h6M9 8h6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+          <div class="pit">Testimony Collection</div>
+          <p class="pib">We gather firsthand accounts from public statements, authorised interviews, and direct submissions. Every account is verified and published only with explicit consent.</p>
         </div>
-        <div class="pillar">
-          <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg></div>
-          <div class="pillar-title">Community Referral</div>
-          <p class="pillar-body">We maintain an active network of referrals to peer support organisations, clinical helplines, and advocacy groups across twelve countries. Every condition in our archive has a corresponding support pathway.</p>
+        <div class="pill">
+          <div class="piico"><svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg></div>
+          <div class="pit">Community Referral</div>
+          <p class="pib">We maintain an active network of referrals to peer support organisations, clinical helplines, and advocacy groups across twelve countries.</p>
         </div>
-        <div class="pillar">
-          <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg></div>
-          <div class="pillar-title">Public Communication</div>
-          <p class="pillar-body">We produce accessible health communication materials drawing on our archive, designed for distribution through partner NGOs, healthcare settings, and community organisations worldwide.</p>
+        <div class="pill">
+          <div class="piico"><svg viewBox="0 0 24 24"><path d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg></div>
+          <div class="pit">Public Communication</div>
+          <p class="pib">We produce accessible health communication materials designed for distribution through partner NGOs, healthcare settings, and community organisations worldwide.</p>
         </div>
       </div>
 
-      <div class="impact-row" style="margin-top:64px;">
-        <div class="impact-item"><div class="impact-n">48</div><div class="impact-l">Documented testimonies</div></div>
-        <div class="impact-item"><div class="impact-n">12</div><div class="impact-l">Referral countries</div></div>
-        <div class="impact-item"><div class="impact-n">5</div><div class="impact-l">Condition categories</div></div>
-        <div class="impact-item"><div class="impact-n">6</div><div class="impact-l">Years of operation</div></div>
+      <div class="irow" style="margin-top:52px;">
+        <div class="iitem"><div class="iin">48</div><div class="iil">Documented testimonies</div></div>
+        <div class="iitem"><div class="iin">12</div><div class="iil">Referral countries</div></div>
+        <div class="iitem"><div class="iin">5</div><div class="iil">Condition categories</div></div>
+        <div class="iitem"><div class="iin">6</div><div class="iil">Years of operation</div></div>
       </div>
     </div>
   </div>
 
-  <div class="affil-strip">
-    <div class="as-left"><div class="as-label">In affiliation with</div><div class="as-org">World Vision International</div></div>
-    <div class="as-body">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
-    <div class="as-right"><div class="as-dot-row"><div class="as-dot"></div>Founded 1950</div><div class="as-dot-row"><div class="as-dot"></div>Active in nearly 100 countries</div><div class="as-dot-row"><div class="as-dot"></div>wvi.org</div></div>
+  <div class="astrip">
+    <div class="asl"><div class="aslab">In affiliation with</div><div class="asorg">World Vision International</div></div>
+    <div class="asb">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
+    <div class="asr"><div class="asdot">Founded 1950</div><div class="asdot">Active in nearly 100 countries</div><div class="asdot">wvi.org</div></div>
   </div>
-  <footer><div class="foot-brand">Voices of <span>Resilience</span></div><span class="foot-note">A registered non-governmental initiative. Not a medical provider.</span><ul class="foot-links"><li><a href="#" onclick="showPage('contact');return false;">Contact</a></li><li><a href="#">Privacy</a></li><li><a href="#" onclick="showPage('submit');return false;">Submit</a></li></ul></footer>
+  <footer><div class="fbrand">Voices of <em>Resilience</em></div><span class="fnote">A registered non-governmental initiative. Not a medical provider.</span><div class="flinks"><a href="#" onclick="go('contact');return false;">Contact</a><a href="#">Privacy</a><a href="#" onclick="go('submit');return false;">Submit</a></div></footer>
 </div>
 
-<!-- ══════════════════════════════════════
-     SUBMIT PAGE
-══════════════════════════════════════ -->
-<div class="page" id="page-submit">
-  <div class="page-banner">
-    <div class="banner-inner">
-      <div class="banner-eyebrow">Contribute</div>
-      <h1 class="banner-h">Submit a Testimony</h1>
-      <p class="banner-sub">If you or someone you represent has a story to share, we would be honoured to receive it. Every submission is reviewed with care.</p>
+<!-- ════════════ SUBMIT ════════════ -->
+<div class="page" id="p-submit">
+  <div class="banner">
+    <div class="binner">
+      <div class="brow">Contribute</div>
+      <h1 class="bh">Submit a Testimony</h1>
+      <p class="bsub">If you or someone you represent has a story to share, we would be honoured to receive it. Every submission is reviewed with care.</p>
     </div>
   </div>
 
-  <div class="submit-body">
+  <div class="sbody">
     <div class="wrap">
-      <div class="submit-grid">
-        <div class="form-block">
-          <div class="section-tag"><span>Your Submission</span></div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">First Name</label>
-              <input type="text" class="form-input" placeholder="Given name"/>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Last Name</label>
-              <input type="text" class="form-input" placeholder="Family name"/>
-            </div>
+      <div class="sgrid">
+        <div class="fblock">
+          <div class="stag"><span>Your Submission</span></div>
+          <div class="frow">
+            <div class="fg"><label class="fl">First Name</label><input type="text" class="fi" placeholder="Given name"/></div>
+            <div class="fg"><label class="fl">Last Name</label><input type="text" class="fi" placeholder="Family name"/></div>
           </div>
-
-          <div class="form-group">
-            <label class="form-label">Email Address</label>
-            <input type="email" class="form-input" placeholder="your@email.com"/>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Submitting on behalf of</label>
-            <select class="form-select form-input">
+          <div class="fg"><label class="fl">Email Address</label><input type="email" class="fi" placeholder="your@email.com"/></div>
+          <div class="fg">
+            <label class="fl">Submitting on behalf of</label>
+            <select class="fsel fi">
               <option value="" disabled selected>Please select</option>
               <option>Myself</option>
               <option>A family member</option>
               <option>A client or representative</option>
-              <option>A public figure (with their consent)</option>
+              <option>A public figure with their consent</option>
             </select>
           </div>
-
-          <div class="form-group">
-            <label class="form-label">Condition Category</label>
-            <select class="form-select form-input">
+          <div class="fg">
+            <label class="fl">Condition Category</label>
+            <select class="fsel fi">
               <option value="" disabled selected>Select a condition</option>
               <option>Cancer</option>
               <option>Heart Disease</option>
@@ -790,211 +709,134 @@ footer{padding:28px 52px;background:var(--off);display:flex;align-items:center;j
               <option>Other</option>
             </select>
           </div>
-
-          <div class="form-group">
-            <label class="form-label">The Testimony</label>
-            <textarea class="form-textarea" placeholder="Share the account in as much or as little detail as you are comfortable with. There is no minimum or maximum length. Write in the first person if possible." style="min-height:200px;"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Supporting Documents or Media (optional)</label>
-            <div class="upload-zone">
+          <div class="fg"><label class="fl">The Testimony</label><textarea class="fta" style="min-height:190px;" placeholder="Share the account in as much or as little detail as you are comfortable with. There is no minimum or maximum length."></textarea></div>
+          <div class="fg">
+            <label class="fl">Supporting Documents or Media (optional)</label>
+            <div class="uzone">
               <input type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple/>
-              <div class="upload-icon">
-                <svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
-              </div>
-              <div class="upload-text">Drag and drop files here, or click to browse</div>
-              <div class="upload-sub">PDF, Word, JPG or PNG up to 20MB each</div>
+              <div class="uico"><svg viewBox="0 0 24 24"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div>
+              <div class="ut">Drag and drop files here, or tap to browse</div>
+              <div class="us">PDF, Word, JPG or PNG up to 20MB each</div>
             </div>
           </div>
-
-          <div class="form-group">
-            <label class="form-check">
-              <input type="checkbox"/>
-              I confirm that the content submitted is accurate to the best of my knowledge and that I have the right to submit it on behalf of the person named.
-            </label>
-          </div>
-
-          <div class="form-group" style="margin-bottom:0;">
-            <label class="form-check">
-              <input type="checkbox"/>
-              I understand that submissions are reviewed by the Voices of Resilience team and may be edited for clarity before publication, with my approval.
-            </label>
-          </div>
-
-          <div class="form-submit">
-            <button class="btn-teal" style="border:none;font-family:'Jost',sans-serif;cursor:pointer;" onclick="this.textContent='Submitted. Thank you.';this.style.background='var(--s700)';">Submit Testimony</button>
+          <div class="fg"><label class="fcheck"><input type="checkbox"/> I confirm the content submitted is accurate and I have the right to submit it on behalf of the person named.</label></div>
+          <div class="fg" style="margin-bottom:0;"><label class="fcheck"><input type="checkbox"/> I understand submissions may be edited for clarity before publication, with my approval.</label></div>
+          <div style="margin-top:28px;">
+            <button class="btn-t" onclick="this.textContent='Submitted. Thank you.';this.style.background='var(--s700)';">Submit Testimony</button>
           </div>
         </div>
 
-        <div class="submit-sidebar">
-          <div class="ss-card">
-            <div class="ss-title">What happens next</div>
-            <p class="ss-body">Every submission is reviewed by a member of our research team within 5 to 7 working days. We will contact you at the email provided to discuss next steps.</p>
-          </div>
-          <div class="ss-card">
-            <div class="ss-title">What we accept</div>
-            <div class="ss-list">
-              <div class="ss-item"><div class="ss-dot"></div>First-person written accounts</div>
-              <div class="ss-item"><div class="ss-dot"></div>Transcripts of interviews or statements</div>
-              <div class="ss-item"><div class="ss-dot"></div>Submitted documents or letters</div>
-              <div class="ss-item"><div class="ss-dot"></div>Submissions on behalf of public figures with verified consent</div>
-            </div>
-          </div>
-          <div class="ss-card">
-            <div class="ss-title">Consent and privacy</div>
-            <p class="ss-body">We will never publish a testimony without written confirmation from the person named, or their authorised representative. Submissions that cannot be verified are held privately and never published.</p>
-          </div>
+        <div class="sside">
+          <div class="sscard"><div class="sst">What happens next</div><p class="ssb">Every submission is reviewed by a member of our research team within 5 to 7 working days. We will contact you at the email provided to discuss next steps.</p></div>
+          <div class="sscard"><div class="sst">What we accept</div><div class="sslist"><div class="ssli">First-person written accounts</div><div class="ssli">Transcripts of interviews or statements</div><div class="ssli">Submitted documents or letters</div><div class="ssli">Submissions on behalf of public figures with verified consent</div></div></div>
+          <div class="sscard"><div class="sst">Consent and privacy</div><p class="ssb">We will never publish a testimony without written confirmation from the person named or their authorised representative. Submissions that cannot be verified are held privately and never published.</p></div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="affil-strip">
-    <div class="as-left"><div class="as-label">In affiliation with</div><div class="as-org">World Vision International</div></div>
-    <div class="as-body">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
-    <div class="as-right"><div class="as-dot-row"><div class="as-dot"></div>Founded 1950</div><div class="as-dot-row"><div class="as-dot"></div>Active in nearly 100 countries</div><div class="as-dot-row"><div class="as-dot"></div>wvi.org</div></div>
+  <div class="astrip">
+    <div class="asl"><div class="aslab">In affiliation with</div><div class="asorg">World Vision International</div></div>
+    <div class="asb">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
+    <div class="asr"><div class="asdot">Founded 1950</div><div class="asdot">Active in nearly 100 countries</div><div class="asdot">wvi.org</div></div>
   </div>
-  <footer><div class="foot-brand">Voices of <span>Resilience</span></div><span class="foot-note">A registered non-governmental initiative. Not a medical provider.</span><ul class="foot-links"><li><a href="#" onclick="showPage('contact');return false;">Contact</a></li><li><a href="#">Privacy</a></li><li><a href="#" onclick="showPage('submit');return false;">Submit</a></li></ul></footer>
+  <footer><div class="fbrand">Voices of <em>Resilience</em></div><span class="fnote">A registered non-governmental initiative. Not a medical provider.</span><div class="flinks"><a href="#" onclick="go('contact');return false;">Contact</a><a href="#">Privacy</a><a href="#" onclick="go('submit');return false;">Submit</a></div></footer>
 </div>
 
-<!-- ══════════════════════════════════════
-     CONTACT PAGE
-══════════════════════════════════════ -->
-<div class="page" id="page-contact">
-  <div class="page-banner">
-    <div class="banner-inner">
-      <div class="banner-eyebrow">Get in Touch</div>
-      <h1 class="banner-h">Contact Us</h1>
-      <p class="banner-sub">For general enquiries, partnership requests, media, or support pathway referrals.</p>
+<!-- ════════════ CONTACT ════════════ -->
+<div class="page" id="p-contact">
+  <div class="banner">
+    <div class="binner">
+      <div class="brow">Get in Touch</div>
+      <h1 class="bh">Contact Us</h1>
+      <p class="bsub">For general enquiries, partnership requests, media, or testimony submissions.</p>
     </div>
   </div>
 
-  <div class="contact-body">
+  <div class="cbody">
     <div class="wrap">
-      <div class="contact-grid">
-        <div>
-          <div class="section-tag"><span>Get in Touch</span></div>
-          <div class="contact-info">
-            <div class="ci-item"><div class="ci-label">General Enquiries</div><div class="ci-val">hello@voicesofresilience.org</div><div class="ci-sub">Responses within 2 working days</div></div>
-            <div class="ci-item"><div class="ci-label">Media and Press</div><div class="ci-val">media@voicesofresilience.org</div><div class="ci-sub">For interview requests and press materials</div></div>
-            <div class="ci-item"><div class="ci-label">Partnerships</div><div class="ci-val">partnerships@voicesofresilience.org</div><div class="ci-sub">NGO, clinical and community partnerships</div></div>
-            <div class="ci-item"><div class="ci-label">Affiliation</div><div class="ci-val">World Vision International</div><div class="ci-sub">wvi.org</div></div>
+      <div class="stag"><span>Reach Out</span></div>
+      <div class="ccenter">
+        <p class="clead">We keep things simple. The best way to reach us is directly on WhatsApp. Whether you have a general enquiry, want to discuss a partnership, or are looking to submit a testimony, we are one message away.</p>
+        <div class="wacard">
+          <div class="waico">
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16 2C8.268 2 2 8.268 2 16c0 2.49.648 4.83 1.782 6.858L2 30l7.338-1.758A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.44 11.44 0 01-5.82-1.588l-.418-.248-4.35 1.042 1.065-4.236-.272-.434A11.46 11.46 0 014.5 16C4.5 9.649 9.649 4.5 16 4.5S27.5 9.649 27.5 16 22.351 27.5 16 27.5zm6.29-8.538c-.344-.172-2.036-1.004-2.352-1.118-.316-.114-.546-.172-.776.172-.23.344-.89 1.118-1.09 1.348-.2.23-.4.258-.744.086-.344-.172-1.452-.535-2.766-1.707-1.022-.912-1.712-2.038-1.912-2.382-.2-.344-.022-.53.15-.7.154-.154.344-.4.516-.6.172-.2.23-.344.344-.574.114-.23.058-.43-.028-.6-.086-.172-.776-1.87-1.062-2.56-.28-.672-.564-.58-.776-.59-.2-.01-.43-.012-.66-.012s-.6.086-.916.43c-.316.344-1.204 1.176-1.204 2.868s1.232 3.326 1.404 3.556c.172.23 2.426 3.706 5.878 5.196.822.354 1.464.566 1.964.724.826.262 1.578.225 2.172.136.662-.1 2.036-.832 2.322-1.634.286-.802.286-1.49.2-1.634-.084-.143-.314-.229-.658-.401z"/></svg>
           </div>
+          <div class="wanum">+44 7555 582822</div>
+          <p class="wanote">Tap the button below to open a WhatsApp conversation directly. We typically respond within a few hours during working days.</p>
+          <a href="https://wa.me/447555582822" target="_blank" class="btnwa">Message on WhatsApp</a>
         </div>
-
-        <div class="contact-form">
-          <div class="section-tag"><span>Send a Message</span></div>
-          <div class="form-group"><label class="form-label">Your Name</label><input type="text" class="form-input" placeholder="Full name"/></div>
-          <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-input" placeholder="your@email.com"/></div>
-          <div class="form-group">
-            <label class="form-label">Subject</label>
-            <select class="form-select form-input">
-              <option value="" disabled selected>Select a topic</option>
-              <option>General enquiry</option>
-              <option>Media or press request</option>
-              <option>Partnership proposal</option>
-              <option>Support pathway referral</option>
-              <option>Testimony submission</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group"><label class="form-label">Message</label><textarea class="form-textarea" placeholder="Write your message here..." style="min-height:140px;"></textarea></div>
-          <button class="btn-teal" style="border:none;font-family:'Jost',sans-serif;cursor:pointer;width:100%;" onclick="this.textContent='Message sent. Thank you.';this.style.background='var(--s700)';">Send Message</button>
+        <div class="ctopics">
+          <div class="ctopic"><div class="ctlab">General Enquiries</div><div class="ctval">Questions about our work or archive</div></div>
+          <div class="ctopic"><div class="ctlab">Media and Press</div><div class="ctval">Interview requests and press materials</div></div>
+          <div class="ctopic"><div class="ctlab">Partnerships</div><div class="ctval">NGO, clinical and community partnerships</div></div>
+          <div class="ctopic"><div class="ctlab">Testimony Submissions</div><div class="ctval">Start the submission process</div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="affil-strip">
-    <div class="as-left"><div class="as-label">In affiliation with</div><div class="as-org">World Vision International</div></div>
-    <div class="as-body">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
-    <div class="as-right"><div class="as-dot-row"><div class="as-dot"></div>Founded 1950</div><div class="as-dot-row"><div class="as-dot"></div>Active in nearly 100 countries</div><div class="as-dot-row"><div class="as-dot"></div>wvi.org</div></div>
+  <div class="astrip">
+    <div class="asl"><div class="aslab">In affiliation with</div><div class="asorg">World Vision International</div></div>
+    <div class="asb">World Vision International is a global Christian humanitarian organisation founded in 1950. Voices of Resilience shares their commitment to human dignity and community resilience.</div>
+    <div class="asr"><div class="asdot">Founded 1950</div><div class="asdot">Active in nearly 100 countries</div><div class="asdot">wvi.org</div></div>
   </div>
-  <footer><div class="foot-brand">Voices of <span>Resilience</span></div><span class="foot-note">A registered non-governmental initiative. Not a medical provider.</span><ul class="foot-links"><li><a href="#" onclick="showPage('contact');return false;">Contact</a></li><li><a href="#">Privacy</a></li><li><a href="#" onclick="showPage('submit');return false;">Submit</a></li></ul></footer>
+  <footer><div class="fbrand">Voices of <em>Resilience</em></div><span class="fnote">A registered non-governmental initiative. Not a medical provider.</span><div class="flinks"><a href="#" onclick="go('contact');return false;">Contact</a><a href="#">Privacy</a><a href="#" onclick="go('submit');return false;">Submit</a></div></footer>
 </div>
 
 <script>
-// ── PAGE ROUTING ──
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  document.querySelectorAll('.nav-a').forEach(a => {
-    a.classList.toggle('active', a.dataset.page === id);
-  });
-  document.querySelectorAll('.mob-a').forEach(a => {
-    a.classList.toggle('active', a.dataset.page === id);
-  });
-  window.scrollTo({top: 0, behavior: 'smooth'});
-  closeMobileMenu();
+// PAGE ROUTING
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+  document.querySelectorAll('.nav-a,.mob-a').forEach(a=>a.classList.toggle('on',a.dataset.p===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+  closeMob();
 }
-
-// Nav link clicks
-document.querySelectorAll('.nav-a, .mob-a').forEach(a => {
-  a.addEventListener('click', function(e) {
-    e.preventDefault();
-    showPage(this.dataset.page);
-  });
+document.querySelectorAll('.nav-a,.mob-a').forEach(a=>{
+  a.addEventListener('click',function(e){e.preventDefault();go(this.dataset.p);});
 });
 
-// ── MOBILE MENU ──
-function toggleMenu() {
-  const ham = document.getElementById('ham');
-  const menu = document.getElementById('mob-menu');
-  ham.classList.toggle('open');
-  menu.classList.toggle('open');
+// MOBILE MENU
+function toggleMob(){
+  document.getElementById('ham').classList.toggle('open');
+  document.getElementById('mob').classList.toggle('open');
 }
-
-function closeMobileMenu() {
+function closeMob(){
   document.getElementById('ham').classList.remove('open');
-  document.getElementById('mob-menu').classList.remove('open');
+  document.getElementById('mob').classList.remove('open');
 }
 
-// ── SCROLL SHADOW ──
-window.addEventListener('scroll', () => {
-  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+// SCROLL SHADOW
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>8);
 });
 
-// ── TESTIMONY FILTER + SEARCH ──
-let activeFilter = 'all';
-
-function setFilter(btn) {
-  document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
-  btn.classList.add('active');
-  activeFilter = btn.dataset.filter;
-  filterCards();
+// FILTER + SEARCH
+let af='all';
+function setF(btn){
+  document.querySelectorAll('.fc').forEach(c=>c.classList.remove('on'));
+  btn.classList.add('on');
+  af=btn.dataset.f;
+  filter();
 }
-
-function filterCards() {
-  const query = document.getElementById('search-input').value.toLowerCase().trim();
-  const cards = document.querySelectorAll('#archive-grid .t-card');
-  let visible = 0;
-
-  cards.forEach(card => {
-    const tags = card.dataset.tags || '';
-    const name = card.dataset.name || '';
-    const matchFilter = activeFilter === 'all' || tags.includes(activeFilter);
-    const matchSearch = !query || name.includes(query) || tags.includes(query);
-    const show = matchFilter && matchSearch;
-    card.style.display = show ? '' : 'none';
-    if (show) visible++;
+function filter(){
+  const q=document.getElementById('si').value.toLowerCase().trim();
+  const cards=document.querySelectorAll('#ag .tcard');
+  let v=0;
+  cards.forEach(c=>{
+    const t=c.dataset.t||'';
+    const n=c.dataset.n||'';
+    const mf=af==='all'||t.includes(af);
+    const ms=!q||n.includes(q)||t.includes(q);
+    const show=mf&&ms;
+    c.style.display=show?'':'none';
+    if(show)v++;
   });
-
-  const noRes = document.querySelector('#archive-grid .no-results');
-  if (visible === 0) {
-    if (!noRes) {
-      const div = document.createElement('div');
-      div.className = 'no-results';
-      div.textContent = 'No testimonies match your search.';
-      document.getElementById('archive-grid').appendChild(div);
-    }
-  } else {
-    if (noRes) noRes.remove();
-  }
-
-  const label = activeFilter === 'all' ? 'all conditions' : activeFilter;
-  document.getElementById('results-count').textContent =
-    visible + ' result' + (visible !== 1 ? 's' : '') + (query ? ' for "' + query + '"' : '');
+  const nr=document.querySelector('#ag .nores');
+  if(v===0){if(!nr){const d=document.createElement('div');d.className='nores';d.textContent='No testimonies match your search.';document.getElementById('ag').appendChild(d);}}
+  else{if(nr)nr.remove();}
+  document.getElementById('rc').textContent=v+' result'+(v!==1?'s':'')+(q?' for "'+q+'"':'');
 }
 </script>
 </body>
